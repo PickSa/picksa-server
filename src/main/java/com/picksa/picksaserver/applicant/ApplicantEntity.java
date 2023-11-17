@@ -67,9 +67,6 @@ public class ApplicantEntity {
     private int score;
 
     @Column(nullable = false)
-    private int evaluator;
-
-    @Column(nullable = false)
     private boolean isEvaluated;
 
     @Column(nullable = false)
@@ -93,7 +90,6 @@ public class ApplicantEntity {
         this.generation = generation;
         this.portfolio = portfolio;
         this.score = score;
-        this.evaluator = evaluator;
         this.isEvaluated = isEvaluated;
         this.result = result;
         this.interviewAvailableTimes = interviewAvailableTimes;
