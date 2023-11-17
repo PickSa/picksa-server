@@ -70,6 +70,7 @@ public class ApplicantEntity {
     private boolean isEvaluated;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Result result;
 
     @ElementCollection
