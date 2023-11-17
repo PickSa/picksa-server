@@ -31,7 +31,7 @@ dependencies {
 
     // DB
     runtimeOnly 'com.h2database:h2'
-    annotationProcessor 'org.projectlombok:lombok'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
     // Security
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
