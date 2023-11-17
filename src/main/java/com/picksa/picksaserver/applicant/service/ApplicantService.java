@@ -22,7 +22,7 @@ public class ApplicantService {
     private final Year thisYear = Year.now();
 
     public ApplicantAllResponse getAllApplicants(OrderCondition orderCondition) {
-        int generation = Generation.from(thisYear).getGeneration();
+        int generation = Generation.from(thisYear).getNumber();
         int managerCount = managerRepository.countByGeneration(generation);
         List<ApplicantResponse> applicants = applicantQueryRepository.findAllApplicants(orderCondition, generation);
         return ApplicantAllResponse.of(
