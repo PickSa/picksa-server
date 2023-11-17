@@ -57,7 +57,7 @@ public class ApplicantEntity {
     @Column(nullable = false)
     private int generation;
 
-    @Column(nullable = false)
+    @Column
     private String portfolio;
 
     @Column(nullable = false)
