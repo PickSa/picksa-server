@@ -11,11 +11,11 @@ public enum Generation {
     ELEVENTH(11, Year.of(2023)),
     TWELFTH(12, Year.of(2024));
 
-    private final int generation;
+    private final int number;
     private final Year year;
 
-    Generation(int generation, Year year) {
-        this.generation = generation;
+    Generation(int number, Year year) {
+        this.number = number;
         this.year = year;
     }
 
