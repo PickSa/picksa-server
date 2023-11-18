@@ -2,6 +2,7 @@ package com.picksa.picksaserver.applicant.repository;
 
 import com.picksa.picksaserver.applicant.OrderCondition;
 import com.picksa.picksaserver.applicant.dto.response.ApplicantResponse;
+import com.picksa.picksaserver.global.domain.Part;
 import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -30,7 +31,6 @@ public class ApplicantQueryRepositoryImpl implements ApplicantQueryRepository {
 
     @Override
     public List<ApplicantResponse> findAllApplicants(OrderCondition orderCondition, int generation) {
-
         return jpaQueryFactory.select(Projections.constructor(
                         ApplicantResponse.class,
                         applicantEntity.id,
@@ -49,6 +49,27 @@ public class ApplicantQueryRepositoryImpl implements ApplicantQueryRepository {
                 .fetch();
     }
 
+    @Override
+    public List<ApplicantResponse> findApplicantsByPart(Part part, OrderCondition orderCondition, int generation) {
+        return jpaQueryFactory.select(Projections.constructor(
+                        ApplicantResponse.class,
+                        applicantEntity.id,
+                        applicantEntity.part,
+                        applicantEntity.name,
+                        applicantEntity.studentId,
+                        applicantEntity.score,
+                        applicantEntity.isEvaluated,
+                        applicantEntity.result))
+                .from(applicantEntity)
+                .where(applicantEntity.generation.eq(generation),
+                        applicantEntity.part.eq(part))
+                .orderBy(
+                        orderByField(orderCondition),
+                        applicantEntity.name.asc()
+                )
+                .fetch();
+    }
+
     private OrderSpecifier<?> orderByField(OrderCondition condition) {
 
         if (condition == null) return OrderByNull.getDefault();
@@ -57,6 +78,8 @@ public class ApplicantQueryRepositoryImpl implements ApplicantQueryRepository {
             return new OrderSpecifier<>(Order.DESC, applicantEntity.result);
         } else if (condition.equals(OrderCondition.STATUS)) {
             return new OrderSpecifier<>(Order.ASC, applicantEntity.isEvaluated);
+        } else if (condition.equals(OrderCondition.SCORE)) {
+            return new OrderSpecifier<>(Order.DESC, applicantEntity.score);
         }
 
         throw new IllegalArgumentException(String.format("일치하는 정렬 조건이 없습니다:%s", condition.name()));
