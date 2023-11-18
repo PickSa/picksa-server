@@ -28,7 +28,7 @@ public class ApplicantController {
 
     private OrderCondition getOrderCondition(String order) {
         if (StringUtils.hasText(order)) {
-            return OrderCondition.from(order.toUpperCase());
+            return OrderCondition.from(order);
         }
         return null;
     }
