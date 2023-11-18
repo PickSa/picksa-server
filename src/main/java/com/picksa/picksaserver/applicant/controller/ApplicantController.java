@@ -3,6 +3,7 @@ package com.picksa.picksaserver.applicant.controller;
 import com.picksa.picksaserver.applicant.OrderCondition;
 import com.picksa.picksaserver.applicant.dto.response.ApplicantAllResponse;
 import com.picksa.picksaserver.applicant.service.ApplicantService;
+import com.picksa.picksaserver.global.domain.Part;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -22,6 +23,15 @@ public class ApplicantController {
     public ResponseEntity<ApplicantAllResponse> getAllApplicants(@RequestParam(required = false) String order) {
         OrderCondition orderCondition = getOrderCondition(order);
         ApplicantAllResponse response = applicantService.getAllApplicants(orderCondition);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<ApplicantAllResponse> getApplicantsByPart(@RequestParam String part,
+                                                                    @RequestParam(required = false) String order) {
+        OrderCondition orderCondition = getOrderCondition(order);
+        ApplicantAllResponse response = applicantService.getApplicantsByPart(Part.from(part), orderCondition);
 
         return ResponseEntity.ok(response);
     }

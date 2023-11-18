@@ -13,4 +13,8 @@ public enum Part {
         this.partName = partName;
     }
 
+    public static Part from(String lowerCase) {
+        return Part.valueOf(lowerCase.toUpperCase());
+    }
+
 }
