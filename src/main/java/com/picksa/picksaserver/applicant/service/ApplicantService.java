@@ -19,9 +19,8 @@ public class ApplicantService {
     private final ApplicantQueryRepository applicantQueryRepository;
     private final ManagerRepository managerRepository;
 
-    private final Year thisYear = Year.now();
-
     public ApplicantAllResponse getAllApplicants(OrderCondition orderCondition) {
+        Year thisYear = Year.now();
         int generation = Generation.from(thisYear).getNumber();
         int managerCount = managerRepository.countByGeneration(generation);
         List<ApplicantResponse> applicants = applicantQueryRepository.findAllApplicants(orderCondition, generation);
