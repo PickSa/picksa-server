@@ -28,7 +28,7 @@ public class EvaluationEntity {
 
     private String comment;
 
-    private Boolean pass;
+    private boolean pass;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private ApplicantEntity applicant;

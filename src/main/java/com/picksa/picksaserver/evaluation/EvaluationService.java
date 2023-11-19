@@ -30,12 +30,36 @@ public class EvaluationService {
 
         EvaluationEntity saved = evaluationRepository.save(evaluation);
 
+        return mapResponse(saved);
+    }
+
+    public EvaluationResponse getEvaluation(Long evaluationId) {
+        EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
+        return mapResponse(evaluation);
+    }
+
+    public EvaluationResponse updateEvaluation(Long evaluationId, Long managerId, EvaluationRequest request) {
+        EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
+
+        if (request.comment() != null) {
+            evaluation.setComment(request.comment());
+        }
+
+        if (request.pass() != null) {
+            evaluation.setPass(request.pass());
+        }
+
+        EvaluationEntity updated = evaluationRepository.save(evaluation);
+
+        return mapResponse(updated);
+    }
+
+    private EvaluationResponse mapResponse (EvaluationEntity entity) {
         return new EvaluationResponse(
-            saved.getApplicant().getId(),
-            saved.getWriter().getId(),
-            saved.isPass(),
-            saved.getComment()
-            );
+            entity.getId(),
+            entity.getPass(),
+            entity.getComment()
+        );
     }
 
 }
