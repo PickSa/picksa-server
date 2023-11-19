@@ -9,6 +9,7 @@ import com.picksa.picksaserver.global.domain.Part;
 import com.picksa.picksaserver.manager.repository.ManagerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Year;
 import java.util.List;
@@ -20,6 +21,7 @@ public class ApplicantService {
     private final ApplicantQueryRepository applicantQueryRepository;
     private final ManagerRepository managerRepository;
 
+    @Transactional(readOnly = true)
     public ApplicantAllResponse getAllApplicants(OrderCondition orderCondition) {
         int generation = getGeneration();
         int managerCount = getManagerCount(generation);
@@ -31,6 +33,7 @@ public class ApplicantService {
         );
     }
 
+    @Transactional(readOnly = true)
     public ApplicantAllResponse getApplicantsByPart(Part part, OrderCondition orderCondition) {
         int generation = getGeneration();
         int managerCount = getManagerCount(generation);
