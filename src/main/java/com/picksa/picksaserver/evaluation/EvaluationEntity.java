@@ -29,7 +29,7 @@ public class EvaluationEntity {
 
     private String comment;
 
-    private boolean pass;
+    private Boolean pass;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "applicant_id")
@@ -45,6 +45,14 @@ public class EvaluationEntity {
         this.pass = pass;
         this.applicant = applicant;
         this.writer = writer;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setPass(Boolean pass) {
+        this.pass = pass;
     }
 
 }
