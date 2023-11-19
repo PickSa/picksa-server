@@ -8,6 +8,7 @@ public record EvaluationRequest(
         Boolean pass,
         String comment
 ) {
+
     public EvaluationEntity toEntity(ApplicantEntity applicant, ManagerEntity manager) {
         return EvaluationEntity.builder()
                 .pass(this.pass())
