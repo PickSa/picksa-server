@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -32,11 +33,10 @@ public class EvaluationEntity {
     private Boolean pass;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "applicant_id")
     private ApplicantEntity applicant;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
     private ManagerEntity writer;
 
     @Builder
