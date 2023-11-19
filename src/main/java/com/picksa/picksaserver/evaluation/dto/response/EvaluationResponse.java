@@ -1,8 +1,7 @@
 package com.picksa.picksaserver.evaluation.dto.response;
 
 public record EvaluationResponse (
-    Long applicantId,
-    Long managerId,
+    Long evaluationId,
     boolean pass,
     String comment
 )
