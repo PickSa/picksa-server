@@ -21,11 +21,12 @@ public class EvaluationController {
     private final EvaluationService service;
 
     @PostMapping("{applicantId}")
-    public ResponseEntity<EvaluationResponse> evaluate(
+    public ResponseEntity<EvaluationResponse> create (
         @PathVariable Long applicantId,
         @RequestHeader(name = "managerId") Long managerId,
         @RequestBody EvaluationRequest evaluationRequest) {
-        EvaluationResponse response = service.createEvaluation(applicantId, managerId, evaluationRequest);
+        EvaluationResponse response = service.createEvaluation(applicantId, managerId,
+            evaluationRequest);
         return ResponseEntity.ok(response);
     }
 
