@@ -31,8 +31,7 @@ public class EvaluationService {
         EvaluationEntity saved = evaluationRepository.save(evaluation);
 
         return new EvaluationResponse(
-            saved.getApplicant().getId(),
-            saved.getWriter().getId(),
+            saved.getId(),
             saved.isPass(),
             saved.getComment()
             );
