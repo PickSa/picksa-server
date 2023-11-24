@@ -10,7 +10,19 @@ import java.util.Optional;
 
 public interface TagRepository extends JpaRepository<TagEntity, Long> {
 
-    Optional<TagEntity> findById(Long id);
-
     List<TagEntity> findByPartAndGeneration(Part part, int generation);
+
+    default TagEntity findByIdOrThrow(Long id) {
+        return findById(id).orElseThrow(() -> new IllegalArgumentException("해당 박스가 존재하지 않습니다."));
+    }
+
+    default List<TagEntity> findByPartAndGenerationOrThrow(Part part, int generation) {
+        List<TagEntity> tagEntities = findByPartAndGeneration(part, generation);
+
+        if (tagEntities.isEmpty()) {
+            throw new IllegalArgumentException("해당 박스가 존재하지 않습니다.");
+        }
+
+        return tagEntities;
+    }
 }
