@@ -1,7 +1,7 @@
 package com.picksa.picksaserver.question.controller;
 
-import com.picksa.picksaserver.question.dto.request.QuestionRequest;
-import com.picksa.picksaserver.question.dto.response.QuestionResponse;
+import com.picksa.picksaserver.question.dto.request.QuestionCreateRequest;
+import com.picksa.picksaserver.question.dto.response.QuestionCreateResponse;
 import com.picksa.picksaserver.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +15,11 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("")
-    public ResponseEntity<QuestionResponse> create (
+    public ResponseEntity<QuestionCreateResponse> create (
             @RequestHeader("managerId") Long managerId,
-            @RequestBody QuestionRequest request
+            @RequestBody QuestionCreateRequest request
     ) {
-        QuestionResponse response = questionService.createQuestion(managerId, request);
+        QuestionCreateResponse response = questionService.createQuestion(managerId, request);
         return ResponseEntity.created(null).body(response);
     }
 
