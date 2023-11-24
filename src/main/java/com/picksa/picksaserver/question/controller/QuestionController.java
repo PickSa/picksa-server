@@ -22,4 +22,5 @@ public class QuestionController {
         QuestionResponse response = questionService.createQuestion(managerId, request);
         return ResponseEntity.created(null).body(response);
     }
+
 }

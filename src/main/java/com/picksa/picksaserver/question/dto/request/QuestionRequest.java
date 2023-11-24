@@ -16,4 +16,5 @@ public record QuestionRequest(String content, Long tagId) {
                 .writer(writer)
                 .build();
     }
+
 }

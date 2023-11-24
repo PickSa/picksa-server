@@ -8,6 +8,7 @@ import com.picksa.picksaserver.question.dto.request.QuestionRequest;
 import com.picksa.picksaserver.question.dto.response.QuestionResponse;
 import com.picksa.picksaserver.question.repository.QuestionRepository;
 import com.picksa.picksaserver.question.repository.TagRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +26,11 @@ public class QuestionService {
         ManagerEntity writer = managerRepository.findByIdOrThrow(managerId);
 
         Optional<TagEntity> optionalTag = tagRepository.findById(request.tagId());
-        TagEntity tag = optionalTag.orElseThrow();
+        TagEntity tag = optionalTag.orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 태그입니다."));
 
         QuestionEntity question = request.toEntity(writer, tag);
         QuestionEntity saved = questionRepository.save(question);
         return new QuestionResponse(saved.getId(), saved.getContent(), saved.getTag().getId());
     }
+
 }
