@@ -26,4 +26,9 @@ public enum Generation {
                 .orElseThrow(() -> new IllegalArgumentException(String.format("%d년도 기수에 해당하는 값이 없습니다.", year.getValue())));
     }
 
+    public static int getGenerationOfThisYear() {
+        Year year = Year.now();
+        return Generation.from(year).getNumber();
+    }
+
 }
