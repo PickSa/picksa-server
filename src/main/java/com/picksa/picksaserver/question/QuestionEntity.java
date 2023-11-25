@@ -50,5 +50,9 @@ public class QuestionEntity {
         this.writer = writer;
     }
 
+    public void updateIsDetermined(boolean isDetermined) {
+        this.isDetermined = isDetermined;
+    }
+
 }
 
