@@ -5,7 +5,7 @@ import com.picksa.picksaserver.manager.ManagerJpaRepository;
 import com.picksa.picksaserver.question.QuestionEntity;
 import com.picksa.picksaserver.question.TagEntity;
 import com.picksa.picksaserver.question.dto.request.QuestionCreateRequest;
-import com.picksa.picksaserver.question.dto.request.QuestionUpdateFinalRequest;
+import com.picksa.picksaserver.question.dto.QuestionDetermine;
 import com.picksa.picksaserver.question.dto.response.QuestionCreateResponse;
 import com.picksa.picksaserver.question.repository.QuestionRepository;
 import com.picksa.picksaserver.question.repository.TagRepository;
@@ -13,8 +13,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,24 +37,25 @@ public class QuestionService {
         return new QuestionCreateResponse(saved.getId(), saved.getContent(), saved.getTag().getId());
     }
 
-    public void updateFianlQuestion(Long managerId, List<QuestionUpdateFinalRequest> requests) {
+    public List<QuestionDetermine> determineQuestions(Long managerId, List<QuestionDetermine> requests) {
         ManagerEntity writer = managerRepository.findByIdOrThrow(managerId);
-
         List<QuestionEntity> questionsToUpdate = questionRepository.findAllById(
                 requests.stream()
                         .map(request -> request.id())
                         .collect(Collectors.toList())
         );
 
-        for (QuestionUpdateFinalRequest request : requests) {
+        List<QuestionDetermine> responses = new ArrayList<>();
+        for (QuestionDetermine request : requests) {
             QuestionEntity question = questionsToUpdate.stream()
                     .filter(q -> q.getId().equals(request.id()))
                     .findFirst()
                     .orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 질문입니다. id: " + request.id()));
 
-            question.updateIsDetermined(request.isDetermined());
+            responses.add(question.updateIsDetermined(request.isDetermined()));
         }
 
         questionRepository.saveAll(questionsToUpdate);
+        return responses;
     }
 }

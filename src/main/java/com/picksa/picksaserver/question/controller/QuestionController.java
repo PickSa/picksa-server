@@ -1,7 +1,7 @@
 package com.picksa.picksaserver.question.controller;
 
 import com.picksa.picksaserver.question.dto.request.QuestionCreateRequest;
-import com.picksa.picksaserver.question.dto.request.QuestionUpdateFinalRequest;
+import com.picksa.picksaserver.question.dto.QuestionDetermine;
 import com.picksa.picksaserver.question.dto.response.QuestionCreateResponse;
 import com.picksa.picksaserver.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +27,12 @@ public class QuestionController {
     }
 
     @PatchMapping("/final")
-    public ResponseEntity<Void> updateFinal (
+    public ResponseEntity<List<QuestionDetermine>> updateFinal (
             @RequestHeader("managerId") Long managerId,
-            @RequestBody List<QuestionUpdateFinalRequest> requests
+            @RequestBody List<QuestionDetermine> requests
             ) {
-        questionService.updateFianlQuestion(managerId, requests);
-        return ResponseEntity.ok().build();
+        List<QuestionDetermine> determinedQuestions = questionService.determineQuestions(managerId, requests);
+        return ResponseEntity.ok(determinedQuestions);
     }
 
 }
