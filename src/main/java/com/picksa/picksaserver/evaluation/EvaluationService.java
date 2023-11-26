@@ -29,12 +29,7 @@ public class EvaluationService {
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
         ManagerEntity writer = managerRepository.findByIdOrThrow(managerId);
 
-        EvaluationEntity evaluation = EvaluationEntity.builder()
-            .pass(request.pass())
-            .comment(request.comment())
-            .applicant(applicant)
-            .writer(writer)
-            .build();
+        EvaluationEntity evaluation = request.toEntity(applicant, writer);
 
         EvaluationEntity saved = evaluationRepository.save(evaluation);
 
