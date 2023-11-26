@@ -47,11 +47,11 @@ public class EvaluationEntity {
         this.writer = writer;
     }
 
-    public void setComment(String comment) {
+    public void updateComment(String comment) {
         this.comment = comment;
     }
 
-    public void setPass(Boolean pass) {
+    public void updatePass(Boolean pass) {
         this.pass = pass;
     }
 

@@ -49,11 +49,11 @@ public class EvaluationService {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
 
         if (request.comment() != null) {
-            evaluation.setComment(request.comment());
+            evaluation.updateComment(request.comment());
         }
 
         if (request.pass() != null) {
-            evaluation.setPass(request.pass());
+            evaluation.updatePass(request.pass());
         }
 
         EvaluationEntity updated = evaluationRepository.save(evaluation);
