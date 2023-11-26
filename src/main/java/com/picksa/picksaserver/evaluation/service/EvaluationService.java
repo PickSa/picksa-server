@@ -9,6 +9,7 @@ import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
 import com.picksa.picksaserver.manager.ManagerEntity;
 import com.picksa.picksaserver.manager.ManagerJpaRepository;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ public class EvaluationService {
     private final EvaluationJpaRepository evaluationRepository;
     private final ApplicantJpaRepository applicantRepository;
     private final ManagerJpaRepository managerRepository;
+
 
     @Transactional
     public EvaluationResponse createEvaluation(Long applicantId, Long managerId, EvaluationRequest request) {
@@ -47,6 +49,10 @@ public class EvaluationService {
     @Transactional
     public EvaluationResponse updateEvaluation(Long evaluationId, Long managerId, EvaluationRequest request) {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
+
+        if (!Objects.equals(evaluation.getWriter().getId(), managerId)) {
+            throw new IllegalArgumentException("본인의 평가만 수정이 가능합니다.");
+        }
 
         if (request.comment() != null) {
             evaluation.updateComment(request.comment());
