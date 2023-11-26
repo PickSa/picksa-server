@@ -4,14 +4,16 @@ import com.picksa.picksaserver.evaluation.EvaluationEntity;
 
 public record EvaluationResponse(
         Long evaluationId,
+        Long managerId,
         Boolean pass,
         String comment
 ) {
-    public static EvaluationResponse createEvaluationResponse(EvaluationEntity evaluation) {
+    public static EvaluationResponse of(EvaluationEntity evaluation) {
         return new EvaluationResponse(
-                evaluation.getId(),
-                evaluation.getPass(),
-                evaluation.getComment()
+            evaluation.getWriter().getId(),
+            evaluation.getId(),
+            evaluation.getPass(),
+            evaluation.getComment()
         );
     }
 

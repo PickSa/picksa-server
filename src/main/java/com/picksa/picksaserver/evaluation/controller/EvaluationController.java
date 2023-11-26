@@ -48,4 +48,10 @@ public class EvaluationController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/applicant/{applicantId}")
+    public ResponseEntity<?> getByApplicant(
+        @PathVariable(name = "applicantId") Long applicantId) {
+        return ResponseEntity.ok(service.getEvaluationByApplicant(applicantId));
+    }
+
 }
