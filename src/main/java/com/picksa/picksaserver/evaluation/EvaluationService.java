@@ -53,9 +53,7 @@ public class EvaluationService {
             evaluation.updatePass(request.pass());
         }
 
-        EvaluationEntity updated = evaluationRepository.save(evaluation);
-
-        return EvaluationResponse.createEvaluationResponse(updated);
+        return EvaluationResponse.createEvaluationResponse(evaluation);
     }
 
 }
