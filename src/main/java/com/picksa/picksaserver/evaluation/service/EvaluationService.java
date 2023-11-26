@@ -91,6 +91,12 @@ public class EvaluationService {
         }
     }
 
+    public List<EvaluationResponse> getByApplicant(Long applicantId) {
+        ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
+        return evaluationRepository.findAllByApplicant(applicant).stream()
+            .map(EvaluationResponse::createEvaluationResponse).toList();
+    }
+
     private UserEntity getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("authentication.isAuthenticated() = " + authentication.isAuthenticated());
