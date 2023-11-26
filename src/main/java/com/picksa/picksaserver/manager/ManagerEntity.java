@@ -42,9 +42,6 @@ public class ManagerEntity {
     @Column(nullable = false)
     private Position position;
 
-    @OneToMany(mappedBy = "writer")
-    private final List<EvaluationEntity> evaluations = new ArrayList<>();
-
     @Builder
     public ManagerEntity(int generation, String name, Part part, Position position) {
         this.generation = generation;
