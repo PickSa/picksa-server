@@ -38,12 +38,12 @@ public class EvaluationService {
 
         EvaluationEntity saved = evaluationRepository.save(evaluation);
 
-        return mapResponse(saved);
+        return EvaluationResponse.createEvaluationResponse(saved);
     }
 
     public EvaluationResponse getEvaluation(Long evaluationId) {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
-        return mapResponse(evaluation);
+        return EvaluationResponse.createEvaluationResponse(evaluation);
     }
 
     @Transactional
@@ -60,15 +60,7 @@ public class EvaluationService {
 
         EvaluationEntity updated = evaluationRepository.save(evaluation);
 
-        return mapResponse(updated);
-    }
-
-    private EvaluationResponse mapResponse (EvaluationEntity entity) {
-        return new EvaluationResponse(
-            entity.getId(),
-            entity.getPass(),
-            entity.getComment()
-        );
+        return EvaluationResponse.createEvaluationResponse(updated);
     }
 
 }
