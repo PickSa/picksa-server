@@ -8,16 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-<<<<<<< HEAD
-=======
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
->>>>>>> 318e3c5 (fix: 운영진, 평가자 매핑 관계 수정 및 중복 평가 예외처리)
 import jakarta.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,18 +38,6 @@ public class ManagerEntity {
     @Enumerated(EnumType.STRING)
     private Position position;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    @OneToMany(mappedBy = "writer")
-    private final List<EvaluationEntity> evaluations = new ArrayList<>();
-
->>>>>>> 318e3c5 (fix: 운영진, 평가자 매핑 관계 수정 및 중복 평가 예외처리)
-=======
->>>>>>> 1da7844 (fix: 평가-운영진 다대일  매핑 단방향으로 수정)
-=======
->>>>>>> 5516eab (fix: 평가-운영진 다대일  매핑 단방향으로 수정)
     @Builder
     public ManagerEntity(int generation, String name, Part part, Position position) {
         this.generation = generation;
