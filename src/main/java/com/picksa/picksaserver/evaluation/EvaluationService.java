@@ -8,7 +8,7 @@ import com.picksa.picksaserver.manager.ManagerEntity;
 import com.picksa.picksaserver.manager.ManagerJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.InvalidIsolationLevelException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +18,7 @@ public class EvaluationService {
     private final ApplicantJpaRepository applicantRepository;
     private final ManagerJpaRepository managerRepository;
 
+    @Transactional
     public EvaluationResponse createEvaluation(Long applicantId, Long managerId, EvaluationRequest request) {
         boolean evaluationExists = evaluationRepository.existsByApplicantIdAndWriterId(applicantId, managerId);
 
@@ -45,6 +46,7 @@ public class EvaluationService {
         return mapResponse(evaluation);
     }
 
+    @Transactional
     public EvaluationResponse updateEvaluation(Long evaluationId, Long managerId, EvaluationRequest request) {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
 
