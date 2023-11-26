@@ -6,6 +6,9 @@ import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
 import com.picksa.picksaserver.manager.ManagerEntity;
 import com.picksa.picksaserver.manager.ManagerJpaRepository;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +57,12 @@ public class EvaluationService {
         }
 
         return EvaluationResponse.createEvaluationResponse(evaluation);
+    }
+
+    public List<EvaluationResponse> getByApplicant(Long applicantId) {
+        ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
+        return evaluationRepository.findAllByApplicant(applicant).stream()
+            .map(EvaluationResponse::createEvaluationResponse).toList();
     }
 
 }

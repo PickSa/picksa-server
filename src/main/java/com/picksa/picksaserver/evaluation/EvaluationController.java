@@ -2,7 +2,6 @@ package com.picksa.picksaserver.evaluation;
 
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +28,11 @@ public class EvaluationController {
         EvaluationResponse response = service.createEvaluation(applicantId, managerId,
             evaluationRequest);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/applicant/{applicantId}")
+    public ResponseEntity<?> getByApplicant(@PathVariable(name = "applicantId") Long applicantId) {
+        return ResponseEntity.ok(service.getByApplicant(applicantId));
     }
 
     @GetMapping("/{evaluationId}")

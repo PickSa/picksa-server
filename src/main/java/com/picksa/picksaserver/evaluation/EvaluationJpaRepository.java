@@ -1,7 +1,10 @@
 package com.picksa.picksaserver.evaluation;
 
+import com.picksa.picksaserver.applicant.ApplicantEntity;
+import com.picksa.picksaserver.applicant.controller.ApplicantController;
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.manager.ManagerEntity;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EvaluationJpaRepository extends JpaRepository <EvaluationEntity, Long> {
@@ -12,5 +15,7 @@ public interface EvaluationJpaRepository extends JpaRepository <EvaluationEntity
     }
 
     boolean existsByApplicantIdAndWriterId(Long applicantId, Long memberId);
+
+    List<EvaluationEntity> findAllByApplicant(ApplicantEntity applicant);
 
 }
