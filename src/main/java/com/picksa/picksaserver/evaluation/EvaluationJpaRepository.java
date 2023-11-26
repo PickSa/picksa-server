@@ -11,4 +11,6 @@ public interface EvaluationJpaRepository extends JpaRepository <EvaluationEntity
             () -> new IllegalArgumentException(("[Error] 해당 평가가 존재하지 않습니다.")));
     }
 
+    boolean existsByApplicantIdAndWriterId(Long applicantId, Long memberId);
+
 }
