@@ -49,6 +49,7 @@ public class ManagerEntity {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     @OneToMany(mappedBy = "writer")
     private final List<EvaluationEntity> evaluations = new ArrayList<>();
@@ -56,6 +57,8 @@ public class ManagerEntity {
 >>>>>>> 318e3c5 (fix: 운영진, 평가자 매핑 관계 수정 및 중복 평가 예외처리)
 =======
 >>>>>>> 1da7844 (fix: 평가-운영진 다대일  매핑 단방향으로 수정)
+=======
+>>>>>>> 5516eab (fix: 평가-운영진 다대일  매핑 단방향으로 수정)
     @Builder
     public ManagerEntity(int generation, String name, Part part, Position position) {
         this.generation = generation;
