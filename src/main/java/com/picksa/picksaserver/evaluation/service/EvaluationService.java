@@ -1,7 +1,9 @@
-package com.picksa.picksaserver.evaluation;
+package com.picksa.picksaserver.evaluation.service;
 
 import com.picksa.picksaserver.applicant.ApplicantEntity;
 import com.picksa.picksaserver.applicant.ApplicantJpaRepository;
+import com.picksa.picksaserver.evaluation.EvaluationEntity;
+import com.picksa.picksaserver.evaluation.EvaluationJpaRepository;
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
 import com.picksa.picksaserver.manager.ManagerEntity;
