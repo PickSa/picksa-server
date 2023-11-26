@@ -5,6 +5,8 @@ import com.picksa.picksaserver.global.domain.Part;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,9 +39,11 @@ public class ManagerEntity {
     private String name;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Part part;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Position position;
 
     @Builder
