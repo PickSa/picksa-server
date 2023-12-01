@@ -53,6 +53,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
+            sudo docker ps -qf "${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}" | xargs -r sudo docker stop
+            sudo docker ps -aqf "${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}" | xargs -r sudo docker rm
             sudo docker image prune -a -f
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
             sudo docker run -d --log-driver=syslog --env-file .env -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
