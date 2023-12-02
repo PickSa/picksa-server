@@ -16,14 +16,15 @@ import java.util.Optional;
 public class TagController {
     private final TagService tagService;
     @GetMapping
-    public ResponseEntity<List<TagResponse>> getTagsByPartAndGeneration(@RequestParam Part part, @RequestParam int year) {
-        List<TagResponse> tags = tagService.getTagsByPartAndGeneration(part, year);
-        return new ResponseEntity<>(tags, HttpStatus.OK);
+    public ResponseEntity<List<TagResponse>> getTagsByPartAndGeneration(@RequestParam Part part) {
+        List<TagResponse> tags = tagService.getTagsByPartAndGeneration(part);
+        return ResponseEntity.ok(tags);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<TagResponse>> getTagById(@PathVariable Long id) {
-        Optional<TagResponse> tag = tagService.getTagById(id);
-        return new ResponseEntity<>(tag, HttpStatus.OK);
+    public ResponseEntity<TagResponse> getTagById(@PathVariable Long id) {
+        TagResponse tag = tagService.getTagById(id);
+        return ResponseEntity.ok(tag);
     }
+
 }
