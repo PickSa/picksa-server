@@ -11,14 +11,14 @@ public interface TagRepository extends JpaRepository<TagEntity, Long> {
     List<TagEntity> findByPartAndGeneration(Part part, int generation);
 
     default TagEntity findByIdOrThrow(Long id) {
-        return findById(id).orElseThrow(() -> new IllegalArgumentException("해당 박스가 존재하지 않습니다."));
+        return findById(id).orElseThrow(() -> new IllegalArgumentException("해당 태그가 존재하지 않습니다."));
     }
 
     default List<TagEntity> findByPartAndGenerationOrThrow(Part part, int generation) {
         List<TagEntity> tagEntities = findByPartAndGeneration(part, generation);
 
         if (tagEntities.isEmpty()) {
-            throw new IllegalArgumentException("해당 박스가 존재하지 않습니다.");
+            throw new IllegalArgumentException("해당 태그가 존재하지 않습니다.");
         }
 
         return tagEntities;
