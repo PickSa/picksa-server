@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,14 +28,13 @@ public class EvaluationEntity {
 
     private String comment;
 
-    private boolean pass;
+    private Boolean pass;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "applicant_id")
     private ApplicantEntity applicant;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
     private ManagerEntity writer;
 
     @Builder
@@ -45,6 +43,14 @@ public class EvaluationEntity {
         this.pass = pass;
         this.applicant = applicant;
         this.writer = writer;
+    }
+
+    public void updateComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void updatePass(Boolean pass) {
+        this.pass = pass;
     }
 
 }
