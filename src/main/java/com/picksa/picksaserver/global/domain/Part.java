@@ -2,6 +2,7 @@ package com.picksa.picksaserver.global.domain;
 
 public enum Part {
 
+    ALL("공통"),
     PM("기획"),
     DESIGN("디자인"),
     FRONTEND("프론트엔드"),
