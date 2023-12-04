@@ -32,9 +32,7 @@ public class EvaluationController {
     }
 
     @GetMapping("/{evaluationId}")
-    public ResponseEntity<EvaluationResponse> get(
-            @PathVariable(name = "evaluationId") Long evaluationId
-    ) {
+    public ResponseEntity<EvaluationResponse> get(@PathVariable(name = "evaluationId") Long evaluationId) {
         return ResponseEntity.ok(service.getEvaluation(evaluationId));
     }
 
@@ -49,8 +47,7 @@ public class EvaluationController {
     }
 
     @GetMapping("/applicant/{applicantId}")
-    public ResponseEntity<?> getByApplicant(
-        @PathVariable(name = "applicantId") Long applicantId) {
+    public ResponseEntity<?> getByApplicant(@PathVariable(name = "applicantId") Long applicantId) {
         return ResponseEntity.ok(service.getEvaluationByApplicant(applicantId));
     }
 
