@@ -4,7 +4,9 @@ import com.picksa.picksaserver.applicant.ApplicantEntity;
 import com.picksa.picksaserver.applicant.ApplicantJpaRepository;
 import com.picksa.picksaserver.evaluation.EvaluationEntity;
 import com.picksa.picksaserver.evaluation.EvaluationJpaRepository;
+import com.picksa.picksaserver.evaluation.dto.request.DecideRequest;
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
+import com.picksa.picksaserver.evaluation.dto.response.DecideResponse;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
 import com.picksa.picksaserver.manager.ManagerEntity;
 import com.picksa.picksaserver.manager.ManagerJpaRepository;
@@ -91,7 +93,7 @@ public class EvaluationService {
     public List<EvaluationResponse> getByApplicant(Long applicantId) {
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
         return evaluationRepository.findAllByApplicant(applicant).stream()
-            .map(EvaluationResponse::createEvaluationResponse).toList();
+            .map(EvaluationResponse::of).toList();
     }
 
     private void isCorrectPart(ApplicantEntity applicant, ManagerEntity manager) {
@@ -106,11 +108,14 @@ public class EvaluationService {
     }
 
 
-    public void decideEvaluation(Long applicantId, Long managerId) {
+    public DecideResponse decideEvaluation(Long applicantId, Long managerId, DecideRequest decideRequest) {
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
         ManagerEntity manager = managerRepository.findByIdOrThrow(managerId);
         isCorrectPart(applicant, manager);
         isPartLeader(manager);
+        applicant.evaluationDone();
+        applicant.decideResult(decideRequest.result());
+        return DecideResponse.from(applicantId, decideRequest.result());
     }
 
 }
