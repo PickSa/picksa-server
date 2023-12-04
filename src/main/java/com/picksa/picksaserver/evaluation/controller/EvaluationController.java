@@ -64,9 +64,9 @@ public class EvaluationController {
         return ResponseEntity.ok(service.decideEvaluation(applicantId, managerId, decideRequest));
     }
 
-    @GetMapping("/final")
-    public ResponseEntity<?> getFinalAll() {
-        return ResponseEntity.ok(service.getFinalResult());
+    @GetMapping("/final/{applicantId}")
+    public ResponseEntity<?> getFinalAll(@PathVariable(name = "applicantId") Long applicantId) {
+        return ResponseEntity.ok(service.getFinalResult(applicantId));
     }
 
 }
