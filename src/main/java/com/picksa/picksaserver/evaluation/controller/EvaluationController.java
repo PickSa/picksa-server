@@ -49,7 +49,7 @@ public class EvaluationController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/final/{applicant_id}")
+    @PatchMapping("/final/{applicantId}")
     public ResponseEntity<?> decide(
         @PathVariable(name = "applicantId") Long applicantId,
         @RequestHeader(name = "managerId") Long managerId,

@@ -106,8 +106,8 @@ public class ApplicantEntity {
         this.isEvaluated = true;
     }
 
-    public void decideResult(Result result) {
-        this.result = result;
+    public void decideResult(Result decide) {
+        this.result = decide;
     }
 
 }
