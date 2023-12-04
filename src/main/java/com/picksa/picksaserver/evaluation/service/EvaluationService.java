@@ -8,9 +8,8 @@ import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
 import com.picksa.picksaserver.manager.ManagerEntity;
 import com.picksa.picksaserver.manager.ManagerJpaRepository;
-import java.util.Collections;
+import com.picksa.picksaserver.manager.Position;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,6 +64,26 @@ public class EvaluationService {
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
         return evaluationRepository.findAllByApplicant(applicant).stream()
             .map(EvaluationResponse::createEvaluationResponse).toList();
+    }
+
+    private void isCorrectPart(ApplicantEntity applicant, ManagerEntity manager) {
+        if (manager.getPart() != applicant.getPart())
+            throw new IllegalArgumentException("[ERROR] 해당 파트의 운영진이 아닙니다.");
+    }
+
+    private void isPartLeader(ManagerEntity manager) {
+        if (!manager.getPosition().equals(Position.PART_LEADER)) {
+            throw new IllegalArgumentException("[ERROR] 파트장이 아닙니다.");
+        }
+    }
+
+
+    public void decideEvaluation(Long applicantId, Long managerId) {
+        ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
+        ManagerEntity manager = managerRepository.findByIdOrThrow(managerId);
+        isCorrectPart(applicant, manager);
+        isPartLeader(manager);
+        ap
     }
 
 }

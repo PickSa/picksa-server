@@ -2,10 +2,7 @@ package com.picksa.picksaserver.evaluation.controller;
 
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
-<<<<<<< HEAD:src/main/java/com/picksa/picksaserver/evaluation/EvaluationController.java
-=======
 import com.picksa.picksaserver.evaluation.service.EvaluationService;
->>>>>>> 38ea73459e9b3fceb9a2425bfa61e1a68601f0df:src/main/java/com/picksa/picksaserver/evaluation/controller/EvaluationController.java
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,6 +51,15 @@ public class EvaluationController {
     ) {
         EvaluationResponse response = service.updateEvaluation(evaluationId, managerId, request);
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/final/{applicant_id}")
+    public ResponseEntity<?> decide(
+        @PathVariable(name = "applicantId") Long applicantId,
+        @RequestHeader(name = "managerId") Long managerId
+    ) {
+        return ResponseEntity.ok(service.decideEvaluation(applicantId, managerId));
+
     }
 
 }
