@@ -50,7 +50,7 @@ public class EvaluationEntity {
         this.comment = comment;
     }
 
-    public void updatePass(Boolean pass) {
+    public void updatePass(boolean pass) {
         this.pass = pass;
     }
 
