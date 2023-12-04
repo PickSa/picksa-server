@@ -77,18 +77,17 @@ public class EvaluationService {
     public EvaluationResponse updateEvaluation(Long evaluationId, Long managerId, EvaluationRequest request) {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
 
-        manageScore(evaluation, request);
-
         if (!Objects.equals(evaluation.getWriter().getId(), managerId)) {
             throw new IllegalArgumentException("본인의 평가만 수정이 가능합니다.");
         }
+
+        manageScore(evaluation, request);
 
         if (request.comment() != null) {
             evaluation.updateComment(request.comment());
         }
 
         if (request.pass() != null) {
-
             evaluation.updatePass(request.pass());
         }
 
@@ -98,7 +97,7 @@ public class EvaluationService {
     public List<EvaluationResponse> getEvaluationByApplicant(Long applicantId) {
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
         return evaluationRepository.findAllByApplicant(applicant).stream()
-            .map(EvaluationResponse::of).toList();
+                .map(EvaluationResponse::of).toList();
     }
 
     private void isCorrectPart(ApplicantEntity applicant, ManagerEntity manager) {

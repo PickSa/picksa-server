@@ -1,6 +1,5 @@
 package com.picksa.picksaserver.question;
 
-import com.picksa.picksaserver.global.domain.Part;
 import com.picksa.picksaserver.manager.ManagerEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,9 +29,6 @@ public class QuestionEntity {
     private int sequence;
 
     @Column(nullable = false)
-    private Part part;
-
-    @Column(nullable = false)
     private boolean isDetermined;
 
     private String content;
@@ -46,9 +42,8 @@ public class QuestionEntity {
     private ManagerEntity writer;
 
     @Builder
-    public QuestionEntity(int sequence, Part part, boolean isDetermined, String content, TagEntity tag, ManagerEntity writer) {
+    public QuestionEntity(int sequence, boolean isDetermined, String content, TagEntity tag, ManagerEntity writer) {
         this.sequence = sequence;
-        this.part = part;
         this.isDetermined = isDetermined;
         this.content = content;
         this.tag = tag;
