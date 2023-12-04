@@ -1,5 +1,6 @@
-package com.picksa.picksaserver.evaluation;
+package com.picksa.picksaserver.evaluation.controller;
 
+import com.picksa.picksaserver.evaluation.dto.request.DecideRequest;
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
 import com.picksa.picksaserver.evaluation.service.EvaluationService;
@@ -52,9 +53,11 @@ public class EvaluationController {
     @PatchMapping("/final/{applicant_id}")
     public ResponseEntity<?> decide(
         @PathVariable(name = "applicantId") Long applicantId,
-        @RequestHeader(name = "managerId") Long managerId
+        @RequestHeader(name = "managerId") Long managerId,
+        @RequestBody DecideRequest decideRequest
     ) {
-        return ResponseEntity.ok(service.decideEvaluation(applicantId, managerId));
+        return ResponseEntity.ok(service.decideEvaluation(applicantId, managerId, decideRequest));
+    }
 
     }
 
