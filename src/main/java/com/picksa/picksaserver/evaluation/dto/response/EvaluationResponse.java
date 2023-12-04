@@ -5,6 +5,7 @@ import com.picksa.picksaserver.evaluation.EvaluationEntity;
 public record EvaluationResponse(
         Long evaluationId,
         Long managerId,
+        Long applicantId,
         String name,
         Boolean pass,
         String comment
@@ -13,6 +14,7 @@ public record EvaluationResponse(
         return new EvaluationResponse(
             evaluation.getId(),
             evaluation.getWriter().getId(),
+            evaluation.getApplicant().getId(),
             evaluation.getWriter().getName(),
             evaluation.getPass(),
             evaluation.getComment()
