@@ -8,6 +8,7 @@ import com.picksa.picksaserver.evaluation.dto.request.DecideRequest;
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.DecideResponse;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
+import com.picksa.picksaserver.evaluation.dto.response.FinalEvaluationResponse;
 import com.picksa.picksaserver.manager.ManagerEntity;
 import com.picksa.picksaserver.manager.ManagerJpaRepository;
 import com.picksa.picksaserver.manager.Position;
@@ -110,6 +111,11 @@ public class EvaluationService {
         applicant.evaluationDone();
         applicant.decideResult(decideRequest.result());
         return DecideResponse.from(applicantId, applicant.getResult().getResultName());
+    }
+
+    public List<FinalEvaluationResponse> getFinalResult() {
+        return applicantRepository.findAll().stream()
+            .map(FinalEvaluationResponse::of).toList();
     }
 
 }

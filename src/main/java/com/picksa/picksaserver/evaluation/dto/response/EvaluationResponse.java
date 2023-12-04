@@ -16,7 +16,7 @@ public record EvaluationResponse(
             evaluation.getWriter().getId(),
             evaluation.getApplicant().getId(),
             evaluation.getWriter().getName(),
-            evaluation.getPass(),
+            evaluation.isPass(),
             evaluation.getComment()
         );
     }
