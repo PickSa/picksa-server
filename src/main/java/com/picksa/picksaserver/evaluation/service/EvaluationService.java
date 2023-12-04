@@ -10,15 +10,12 @@ import com.picksa.picksaserver.evaluation.dto.response.DecideResponse;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
 import com.picksa.picksaserver.manager.ManagerEntity;
 import com.picksa.picksaserver.manager.ManagerJpaRepository;
-import java.util.Collections;
+import com.picksa.picksaserver.manager.Position;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -54,6 +51,17 @@ public class EvaluationService {
         return EvaluationResponse.of(evaluation);
     }
 
+    private void manageScore(EvaluationEntity evaluation, EvaluationRequest request) {
+        if (evaluation.isPass() != request.pass()) {
+            if (request.pass()) {
+                evaluation.getApplicant().upScore();
+            }
+            if (!request.pass()) {
+                evaluation.getApplicant().downScore();
+            }
+        }
+    }
+
     @Transactional
     public EvaluationResponse updateEvaluation(Long evaluationId, EvaluationRequest request) {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
@@ -78,18 +86,7 @@ public class EvaluationService {
     public List<EvaluationResponse> getEvaluationByApplicant(Long applicantId) {
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
         return evaluationRepository.findAllByApplicant(applicant).stream()
-                .map(EvaluationResponse::of).toList();
-    }
-
-    private void manageScore(EvaluationEntity evaluation, EvaluationRequest request) {
-        if (evaluation.isPass() != request.pass()) {
-            if (request.pass()) {
-                evaluation.getApplicant().upScore();
-            }
-            if (!request.pass()) {
-                evaluation.getApplicant().downScore();
-            }
-        }
+            .map(EvaluationResponse::of).toList();
     }
 
     private void isCorrectPart(ApplicantEntity applicant, ManagerEntity manager) {
@@ -112,6 +109,11 @@ public class EvaluationService {
         applicant.evaluationDone();
         applicant.decideResult(decideRequest.result());
         return DecideResponse.from(applicantId, applicant.getResult().getResultName());
+    }
+
+    public List<FinalEvaluationResponse> getFinalResult() {
+        return applicantRepository.findAll().stream()
+            .map(FinalEvaluationResponse::of).toList();
     }
 
     private UserEntity getUser() {

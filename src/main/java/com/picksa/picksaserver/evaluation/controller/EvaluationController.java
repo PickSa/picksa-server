@@ -61,4 +61,9 @@ public class EvaluationController {
         return ResponseEntity.ok(service.decideEvaluation(applicantId, managerId, decideRequest));
     }
 
+    @GetMapping("/final")
+    public ResponseEntity<?> getFinalAll() {
+        return ResponseEntity.ok(service.getFinalResult());
+    }
+
 }
