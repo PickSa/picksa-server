@@ -94,4 +94,12 @@ public class ApplicantEntity {
 //        this.interviewAvailableTimes = interviewAvailableTimes;
     }
 
+    public void upScore() {
+        this.score++;
+    }
+
+    public void downScore() {
+        this.score--;
+    }
+
 }
