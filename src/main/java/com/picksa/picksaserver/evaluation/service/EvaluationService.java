@@ -8,12 +8,12 @@ import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
 import com.picksa.picksaserver.manager.ManagerEntity;
 import com.picksa.picksaserver.manager.ManagerJpaRepository;
-import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -49,17 +49,6 @@ public class EvaluationService {
         return EvaluationResponse.of(evaluation);
     }
 
-    private void manageScore(EvaluationEntity evaluation, EvaluationRequest request) {
-        if (evaluation.getPass() != request.pass()) {
-            if (request.pass()) {
-                evaluation.getApplicant().upScore();
-            }
-            if (!request.pass()) {
-                evaluation.getApplicant().downScore();
-            }
-        }
-    }
-
     @Transactional
     public EvaluationResponse updateEvaluation(Long evaluationId, Long managerId, EvaluationRequest request) {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
@@ -84,7 +73,18 @@ public class EvaluationService {
     public List<EvaluationResponse> getEvaluationByApplicant(Long applicantId) {
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
         return evaluationRepository.findAllByApplicant(applicant).stream()
-            .map(EvaluationResponse::of).toList();
+                .map(EvaluationResponse::of).toList();
+    }
+
+    private void manageScore(EvaluationEntity evaluation, EvaluationRequest request) {
+        if (evaluation.isPass() != request.pass()) {
+            if (request.pass()) {
+                evaluation.getApplicant().upScore();
+            }
+            if (!request.pass()) {
+                evaluation.getApplicant().downScore();
+            }
+        }
     }
 
 }
