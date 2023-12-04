@@ -1,6 +1,7 @@
 package com.picksa.picksaserver.question;
 
 import com.picksa.picksaserver.manager.ManagerEntity;
+import com.picksa.picksaserver.question.dto.QuestionDetermine;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -48,6 +49,11 @@ public class QuestionEntity {
         this.content = content;
         this.tag = tag;
         this.writer = writer;
+    }
+
+    public QuestionDetermine updateIsDetermined(boolean isDetermined) {
+        this.isDetermined = isDetermined;
+        return new QuestionDetermine(this.id, this.isDetermined);
     }
 
 }
