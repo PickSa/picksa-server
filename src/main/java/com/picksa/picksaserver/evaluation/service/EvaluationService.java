@@ -92,12 +92,6 @@ public class EvaluationService {
         }
     }
 
-    public List<EvaluationResponse> getByApplicant(Long applicantId) {
-        ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
-        return evaluationRepository.findAllByApplicant(applicant).stream()
-            .map(EvaluationResponse::of).toList();
-    }
-
     private void isCorrectPart(ApplicantEntity applicant, ManagerEntity manager) {
         if (manager.getPart() != applicant.getPart())
             throw new IllegalArgumentException("[ERROR] 해당 파트의 운영진이 아닙니다.");
@@ -109,7 +103,7 @@ public class EvaluationService {
         }
     }
 
-
+    @Transactional
     public DecideResponse decideEvaluation(Long applicantId, Long managerId, DecideRequest decideRequest) {
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
         ManagerEntity manager = managerRepository.findByIdOrThrow(managerId);
@@ -117,7 +111,7 @@ public class EvaluationService {
         isPartLeader(manager);
         applicant.evaluationDone();
         applicant.decideResult(decideRequest.result());
-        return DecideResponse.from(applicantId, decideRequest.result());
+        return DecideResponse.from(applicantId, applicant.getResult().getResultName());
     }
 
     private UserEntity getUser() {

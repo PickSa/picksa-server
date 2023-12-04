@@ -3,6 +3,7 @@ package com.picksa.picksaserver.evaluation.controller;
 import com.picksa.picksaserver.evaluation.dto.request.DecideRequest;
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
+import lombok.Getter;
 import com.picksa.picksaserver.evaluation.service.EvaluationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -45,12 +46,7 @@ public class EvaluationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/applicant/{applicantId}")
-    public ResponseEntity<?> getByApplicant(@PathVariable(name = "applicantId") Long applicantId) {
-        return ResponseEntity.ok(service.getEvaluationByApplicant(applicantId));
-    }
-
-    @PatchMapping("/final/{applicant_id}")
+    @PatchMapping("/final/{applicantId}")
     public ResponseEntity<?> decide(
         @PathVariable(name = "applicantId") Long applicantId,
         @RequestHeader(name = "managerId") Long managerId,
@@ -59,6 +55,10 @@ public class EvaluationController {
         return ResponseEntity.ok(service.decideEvaluation(applicantId, managerId, decideRequest));
     }
 
+    @GetMapping("/applicant/{applicantId}")
+    public ResponseEntity<?> getByApplicant(
+        @PathVariable(name = "applicantId") Long applicantId) {
+        return ResponseEntity.ok(service.getEvaluationByApplicant(applicantId));
     }
 
 }
