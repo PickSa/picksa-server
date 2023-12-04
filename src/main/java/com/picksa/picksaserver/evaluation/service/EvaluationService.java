@@ -52,7 +52,7 @@ public class EvaluationService {
     }
 
     private void manageScore(EvaluationEntity evaluation, EvaluationRequest request) {
-        if (evaluation.getPass() != request.pass()) {
+        if (evaluation.isPass() != request.pass()) {
             if (request.pass()) {
                 evaluation.getApplicant().upScore();
             }
