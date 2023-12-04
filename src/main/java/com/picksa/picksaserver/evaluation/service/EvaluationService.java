@@ -6,12 +6,12 @@ import com.picksa.picksaserver.evaluation.EvaluationEntity;
 import com.picksa.picksaserver.evaluation.EvaluationJpaRepository;
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
-import com.picksa.picksaserver.global.auth.UserAuthentication;
-import com.picksa.picksaserver.user.UserEntity;
-import com.picksa.picksaserver.user.UserJpaRepository;
+import com.picksa.picksaserver.manager.ManagerEntity;
+import com.picksa.picksaserver.manager.ManagerJpaRepository;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,19 +24,18 @@ public class EvaluationService {
 
     private final EvaluationJpaRepository evaluationRepository;
     private final ApplicantJpaRepository applicantRepository;
-    private final UserJpaRepository userRepository;
+    private final ManagerJpaRepository managerRepository;
 
     @Transactional
-    public EvaluationResponse createEvaluation(Long applicantId, EvaluationRequest request) {
-        UserEntity writer = getUser();
-
-        boolean evaluationExists = evaluationRepository.existsByApplicantIdAndWriterId(applicantId, writer.getId());
+    public EvaluationResponse createEvaluation(Long applicantId, Long managerId, EvaluationRequest request) {
+        boolean evaluationExists = evaluationRepository.existsByApplicantIdAndWriterId(applicantId, managerId);
 
         if (evaluationExists) {
             throw new IllegalArgumentException("[Error] 이미 평가한 지원자입니다.");
         }
 
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
+        ManagerEntity writer = managerRepository.findByIdOrThrow(managerId);
 
         if (request.pass()) {
             applicant.upScore();
@@ -95,6 +94,26 @@ public class EvaluationService {
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
         return evaluationRepository.findAllByApplicant(applicant).stream()
             .map(EvaluationResponse::createEvaluationResponse).toList();
+    }
+
+    private void isCorrectPart(ApplicantEntity applicant, ManagerEntity manager) {
+        if (manager.getPart() != applicant.getPart())
+            throw new IllegalArgumentException("[ERROR] 해당 파트의 운영진이 아닙니다.");
+    }
+
+    private void isPartLeader(ManagerEntity manager) {
+        if (!manager.getPosition().equals(Position.PART_LEADER)) {
+            throw new IllegalArgumentException("[ERROR] 파트장이 아닙니다.");
+        }
+    }
+
+
+    public void decideEvaluation(Long applicantId, Long managerId) {
+        ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
+        ManagerEntity manager = managerRepository.findByIdOrThrow(managerId);
+        isCorrectPart(applicant, manager);
+        isPartLeader(manager);
+        ap
     }
 
     private UserEntity getUser() {
