@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class EvaluationService {
@@ -34,21 +37,30 @@ public class EvaluationService {
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
         ManagerEntity writer = managerRepository.findByIdOrThrow(managerId);
 
-        EvaluationEntity evaluation = request.toEntity(applicant, writer);
+        if (request.pass()) {
+            applicant.upScore();
+        }
 
+        EvaluationEntity evaluation = request.toEntity(applicant, writer);
         EvaluationEntity saved = evaluationRepository.save(evaluation);
 
-        return EvaluationResponse.createEvaluationResponse(saved);
+        return EvaluationResponse.of(saved);
     }
 
     public EvaluationResponse getEvaluation(Long evaluationId) {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
-        return EvaluationResponse.createEvaluationResponse(evaluation);
+        return EvaluationResponse.of(evaluation);
     }
 
     @Transactional
     public EvaluationResponse updateEvaluation(Long evaluationId, Long managerId, EvaluationRequest request) {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
+
+        if (!Objects.equals(evaluation.getWriter().getId(), managerId)) {
+            throw new IllegalArgumentException("본인의 평가만 수정이 가능합니다.");
+        }
+
+        manageScore(evaluation, request);
 
         if (request.comment() != null) {
             evaluation.updateComment(request.comment());
@@ -58,7 +70,24 @@ public class EvaluationService {
             evaluation.updatePass(request.pass());
         }
 
-        return EvaluationResponse.createEvaluationResponse(evaluation);
+        return EvaluationResponse.of(evaluation);
+    }
+
+    public List<EvaluationResponse> getEvaluationByApplicant(Long applicantId) {
+        ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
+        return evaluationRepository.findAllByApplicant(applicant).stream()
+                .map(EvaluationResponse::of).toList();
+    }
+
+    private void manageScore(EvaluationEntity evaluation, EvaluationRequest request) {
+        if (evaluation.isPass() != request.pass()) {
+            if (request.pass()) {
+                evaluation.getApplicant().upScore();
+            }
+            if (!request.pass()) {
+                evaluation.getApplicant().downScore();
+            }
+        }
     }
 
     public List<EvaluationResponse> getByApplicant(Long applicantId) {
