@@ -46,6 +46,12 @@ public class EvaluationController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/applicant/{applicantId}")
+    public ResponseEntity<?> getByApplicant(
+        @PathVariable(name = "applicantId") Long applicantId) {
+        return ResponseEntity.ok(service.getEvaluationByApplicant(applicantId));
+    }
+
     @PatchMapping("/final/{applicantId}")
     public ResponseEntity<?> decide(
         @PathVariable(name = "applicantId") Long applicantId,
@@ -53,12 +59,6 @@ public class EvaluationController {
         @RequestBody DecideRequest decideRequest
     ) {
         return ResponseEntity.ok(service.decideEvaluation(applicantId, managerId, decideRequest));
-    }
-
-    @GetMapping("/applicant/{applicantId}")
-    public ResponseEntity<?> getByApplicant(
-        @PathVariable(name = "applicantId") Long applicantId) {
-        return ResponseEntity.ok(service.getEvaluationByApplicant(applicantId));
     }
 
 }
