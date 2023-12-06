@@ -10,6 +10,7 @@ import com.picksa.picksaserver.question.dto.response.QuestionCreateResponse;
 import com.picksa.picksaserver.question.repository.QuestionRepository;
 import com.picksa.picksaserver.question.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +58,19 @@ public class QuestionService {
 
         questionRepository.saveAll(questionsToUpdate);
         return responses;
+    }
+
+    @Transactional
+    public Long deleteQuestion(Long managerId, Long questionId) {
+        ManagerEntity writer = managerRepository.findByIdOrThrow(managerId);
+        QuestionEntity question = questionRepository.findById(questionId)
+        		.orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 질문입니다. id: " + questionId));
+
+        if (!question.getWriter().getId().equals(writer.getId())) {
+        	throw new IllegalArgumentException("[Error] 질문을 작성한 매니저만 삭제할 수 있습니다.");
+        }
+
+        question.deleteQuestion();
+        return question.getId();
     }
 }

@@ -35,4 +35,13 @@ public class QuestionController {
         return ResponseEntity.ok(determinedQuestions);
     }
 
+    @DeleteMapping("/{questionId}")
+    public ResponseEntity<String> deleteQuestion(
+            @RequestHeader("managerId") Long managerId,
+    		@PathVariable("questionId") Long questionId
+    		) {
+    	Long deletedId = questionService.deleteQuestion(managerId, questionId);
+    	return ResponseEntity.ok("질문 삭제 완료. \n삭제한 ID: " + deletedId);
+    }
+
 }
