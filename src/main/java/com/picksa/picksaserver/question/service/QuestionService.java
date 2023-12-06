@@ -12,6 +12,7 @@ import com.picksa.picksaserver.question.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class QuestionService {
         		.orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 질문입니다. id: " + questionId));
 
         if (!question.getWriter().getId().equals(writer.getId())) {
-        	throw new IllegalArgumentException("[Error] 질문을 작성한 매니저만 삭제할 수 있습니다.");
+            throw new AccessDeniedException("[Error] 질문 작성자만 삭제할 수 있습니다.");
         }
 
         question.deleteQuestion();
