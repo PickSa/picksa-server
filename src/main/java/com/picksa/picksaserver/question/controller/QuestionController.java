@@ -3,6 +3,7 @@ package com.picksa.picksaserver.question.controller;
 import com.picksa.picksaserver.question.dto.request.QuestionCreateRequest;
 import com.picksa.picksaserver.question.dto.QuestionDetermine;
 import com.picksa.picksaserver.question.dto.response.QuestionCreateResponse;
+import com.picksa.picksaserver.question.dto.response.QuestionDeleteResponse;
 import com.picksa.picksaserver.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +37,12 @@ public class QuestionController {
     }
 
     @DeleteMapping("/{questionId}")
-    public ResponseEntity<String> deleteQuestion(
+    public ResponseEntity<QuestionDeleteResponse> deleteQuestion(
             @RequestHeader("managerId") Long managerId,
     		@PathVariable("questionId") Long questionId
     		) {
-    	Long deletedId = questionService.deleteQuestion(managerId, questionId);
-    	return ResponseEntity.ok("질문 삭제 완료. \n삭제한 ID: " + deletedId);
+        QuestionDeleteResponse response = questionService.deleteQuestion(managerId, questionId);
+    	return ResponseEntity.ok(response);
     }
 
 }

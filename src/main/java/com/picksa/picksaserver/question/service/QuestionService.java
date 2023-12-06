@@ -7,6 +7,7 @@ import com.picksa.picksaserver.question.TagEntity;
 import com.picksa.picksaserver.question.dto.request.QuestionCreateRequest;
 import com.picksa.picksaserver.question.dto.QuestionDetermine;
 import com.picksa.picksaserver.question.dto.response.QuestionCreateResponse;
+import com.picksa.picksaserver.question.dto.response.QuestionDeleteResponse;
 import com.picksa.picksaserver.question.repository.QuestionRepository;
 import com.picksa.picksaserver.question.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -62,7 +63,7 @@ public class QuestionService {
     }
 
     @Transactional
-    public Long deleteQuestion(Long managerId, Long questionId) {
+    public QuestionDeleteResponse deleteQuestion(Long managerId, Long questionId) {
         ManagerEntity writer = managerRepository.findByIdOrThrow(managerId);
         QuestionEntity question = questionRepository.findById(questionId)
         		.orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 질문입니다. id: " + questionId));
@@ -72,6 +73,6 @@ public class QuestionService {
         }
 
         question.deleteQuestion();
-        return question.getId();
+        return QuestionDeleteResponse.of(question.getId());
     }
 }
