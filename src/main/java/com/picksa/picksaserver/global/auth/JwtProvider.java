@@ -25,7 +25,7 @@ public class JwtProvider {
         Date expiredAt = new Date(now.getTime() + jwtProperties.getAccessTokenExpiration());
 
         return Jwts.builder()
-                .setSubject(String.valueOf(user.getId()))
+                .claim("id", String.valueOf(user.getId()))
                 .setIssuedAt(now)
                 .setExpiration(expiredAt)
                 .signWith(key)
