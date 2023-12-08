@@ -25,4 +25,10 @@ public class AuthController {
                 .build();
     }
 
+    @GetMapping("/signin")
+    public ResponseEntity<SignInResponse> signIn(@RequestParam String code) {
+        SignInResponse response = oAuthService.signIn(code);
+        return ResponseEntity.ok(response);
+    }
+
 }
