@@ -21,7 +21,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtManager jwtManager;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             final String token = getTokenFromJwt(request);
             if (jwtManager.validateToken(token) == JwtValidationType.VALID_JWT) {
@@ -33,6 +33,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception exception) {
             throw new RuntimeException("Invalid Token");
         }
+
+        filterChain.doFilter(request, response);
     }
 
     private String getTokenFromJwt(HttpServletRequest request) {
@@ -42,4 +44,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
+
 }
