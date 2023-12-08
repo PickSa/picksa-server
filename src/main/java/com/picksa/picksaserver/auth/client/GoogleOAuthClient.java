@@ -41,21 +41,12 @@ public class GoogleOAuthClient implements OAuthClient {
                 .queryParam("code", authCode)
                 .build().toUri();
 
-        System.out.println("properties.getGrantType() = " + properties.getGrantType());
-//        param.add("grant_type", properties.getGrantType());
-//        param.add("client_id", properties.getClientId());
-//        param.add("client_secret", properties.getClientSecret());
-//        param.add("redirect_uri", properties.getRedirectUri());
-//        param.add("code", authCode);
-
-
         GoogleOAuthToken token = restTemplate.postForObject(
                 requestUrl,
                 new HttpEntity<>(httpHeaders),
                 GoogleOAuthToken.class
         );
 
-        System.out.println("token.accessToken() = " + token.accessToken());
         return token.accessToken();
     }
 
@@ -65,7 +56,6 @@ public class GoogleOAuthClient implements OAuthClient {
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         httpHeaders.setBearerAuth(accessToken);
 
-        System.out.println("REQUEST_USER_INFO_URL = " + REQUEST_USER_INFO_URL);
         URI requestUrl = UriComponentsBuilder
                 .fromUriString(REQUEST_USER_INFO_URL)
                 .queryParam("access_token", accessToken)
