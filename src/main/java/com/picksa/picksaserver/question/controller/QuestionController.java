@@ -19,19 +19,19 @@ public class QuestionController {
 
     @PostMapping("")
     public ResponseEntity<QuestionCreateResponse> create (
-            @RequestHeader("managerId") Long managerId,
+            @RequestHeader("userId") Long userId,
             @RequestBody QuestionCreateRequest request
     ) {
-        QuestionCreateResponse response = questionService.createQuestion(managerId, request);
+        QuestionCreateResponse response = questionService.createQuestion(userId, request);
         return ResponseEntity.created(null).body(response);
     }
 
     @PatchMapping("/final")
     public ResponseEntity<List<QuestionDetermine>> updateFinal (
-            @RequestHeader("managerId") Long managerId,
+            @RequestHeader("userId") Long userId,
             @RequestBody List<QuestionDetermine> requests
             ) {
-        List<QuestionDetermine> determinedQuestions = questionService.determineQuestions(managerId, requests);
+        List<QuestionDetermine> determinedQuestions = questionService.determineQuestions(userId, requests);
         return ResponseEntity.ok(determinedQuestions);
     }
 

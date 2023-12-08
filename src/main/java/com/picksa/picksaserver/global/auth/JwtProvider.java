@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.global.auth;
 
-import com.picksa.picksaserver.manager.ManagerEntity;
+import com.picksa.picksaserver.user.UserEntity;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
@@ -20,12 +20,14 @@ public class JwtProvider {
         this.key = Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
     }
 
-    public String provideAccessToken(ManagerEntity user) {
+    public String provideAccessToken(UserEntity user) {
         Date now = new Date();
         Date expiredAt = new Date(now.getTime() + jwtProperties.getAccessTokenExpiration());
 
         return Jwts.builder()
                 .claim("id", String.valueOf(user.getId()))
+                .claim("position", user.getPosition())
+                .claim("part", user.getPart().name())
                 .setIssuedAt(now)
                 .setExpiration(expiredAt)
                 .signWith(key)
