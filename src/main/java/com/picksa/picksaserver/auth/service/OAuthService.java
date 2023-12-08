@@ -30,7 +30,6 @@ public class OAuthService {
         ManagerEntity user = managerJpaRepository.findByEmail(userInfo.getEmail())
                 .orElseThrow(() -> new AuthenticationUserNotRegisteredException("등록된 사용자가 아닙니다."));
 
-        System.out.println("user.getEmail() = " + user.getEmail());
         String accessToken = jwtProvider.provideAccessToken(user);
 
         return SignInResponse.from(accessToken);
