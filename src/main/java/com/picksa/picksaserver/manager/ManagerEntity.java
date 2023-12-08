@@ -38,12 +38,16 @@ public class ManagerEntity {
     @Enumerated(EnumType.STRING)
     private Position position;
 
+    @Column(nullable = false)
+    private String email;
+
     @Builder
-    public ManagerEntity(int generation, String name, Part part, Position position) {
+    public ManagerEntity(int generation, String name, Part part, Position position, String email) {
         this.generation = generation;
         this.name = name;
         this.part = part;
         this.position = position;
+        this.email = email;
     }
 
 }
