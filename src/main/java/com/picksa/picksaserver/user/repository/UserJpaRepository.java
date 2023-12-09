@@ -1,5 +1,6 @@
-package com.picksa.picksaserver.user;
+package com.picksa.picksaserver.user.repository;
 
+import com.picksa.picksaserver.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -12,5 +13,7 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, Long> {
     }
 
     Optional<UserEntity> findByEmail(String email);
+
+    int countByGeneration(int generation);
 
 }
