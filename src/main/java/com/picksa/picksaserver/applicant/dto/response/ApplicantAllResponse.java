@@ -4,13 +4,13 @@ import java.util.List;
 
 public record ApplicantAllResponse(
         int generation,
-        int managerCount,
+        int userCount,
         List<ApplicantResponse> applicants
 ) {
     public static ApplicantAllResponse of(int generation,
-                                          int managerCount,
+                                          int userCount,
                                           List<ApplicantResponse> applicants) {
-        return new ApplicantAllResponse(generation, managerCount, applicants);
+        return new ApplicantAllResponse(generation, userCount, applicants);
     }
 
 }

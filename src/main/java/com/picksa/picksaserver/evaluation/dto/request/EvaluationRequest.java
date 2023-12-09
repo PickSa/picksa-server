@@ -2,19 +2,19 @@ package com.picksa.picksaserver.evaluation.dto.request;
 
 import com.picksa.picksaserver.applicant.ApplicantEntity;
 import com.picksa.picksaserver.evaluation.EvaluationEntity;
-import com.picksa.picksaserver.manager.ManagerEntity;
+import com.picksa.picksaserver.user.UserEntity;
 
 public record EvaluationRequest(
         Boolean pass,
         String comment
 ) {
 
-    public EvaluationEntity toEntity(ApplicantEntity applicant, ManagerEntity manager) {
+    public EvaluationEntity toEntity(ApplicantEntity applicant, UserEntity user) {
         return EvaluationEntity.builder()
                 .pass(this.pass())
                 .comment(this.comment())
                 .applicant(applicant)
-                .writer(manager)
+                .writer(user)
                 .build();
     }
 

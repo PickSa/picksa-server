@@ -1,4 +1,4 @@
-package com.picksa.picksaserver.manager;
+package com.picksa.picksaserver.user;
 
 public enum Position {
 

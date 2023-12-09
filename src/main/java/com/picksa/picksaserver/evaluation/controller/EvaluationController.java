@@ -24,10 +24,8 @@ public class EvaluationController {
     @PostMapping("/{applicantId}")
     public ResponseEntity<EvaluationResponse> create(
             @PathVariable(name = "applicantId") Long applicantId,
-            @RequestHeader(name = "managerId") Long managerId,
             @RequestBody EvaluationRequest evaluationRequest) {
-        EvaluationResponse response = service.createEvaluation(applicantId, managerId,
-                evaluationRequest);
+        EvaluationResponse response = service.createEvaluation(applicantId, evaluationRequest);
         return ResponseEntity.ok(response);
     }
 
@@ -39,10 +37,10 @@ public class EvaluationController {
     @PatchMapping("/{evaluationId}")
     public ResponseEntity<EvaluationResponse> update(
             @PathVariable(name = "evaluationId") Long evaluationId,
-            @RequestHeader(name = "managerId") Long managerId,
+            @RequestHeader(name = "userId") Long userId,
             @RequestBody EvaluationRequest request
     ) {
-        EvaluationResponse response = service.updateEvaluation(evaluationId, managerId, request);
+        EvaluationResponse response = service.updateEvaluation(evaluationId, request);
         return ResponseEntity.ok(response);
     }
 

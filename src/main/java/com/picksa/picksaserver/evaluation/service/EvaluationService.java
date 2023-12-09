@@ -6,9 +6,12 @@ import com.picksa.picksaserver.evaluation.EvaluationEntity;
 import com.picksa.picksaserver.evaluation.EvaluationJpaRepository;
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
-import com.picksa.picksaserver.manager.ManagerEntity;
-import com.picksa.picksaserver.manager.ManagerJpaRepository;
+import com.picksa.picksaserver.global.auth.UserAuthentication;
+import com.picksa.picksaserver.user.UserEntity;
+import com.picksa.picksaserver.user.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,18 +24,19 @@ public class EvaluationService {
 
     private final EvaluationJpaRepository evaluationRepository;
     private final ApplicantJpaRepository applicantRepository;
-    private final ManagerJpaRepository managerRepository;
+    private final UserJpaRepository userRepository;
 
     @Transactional
-    public EvaluationResponse createEvaluation(Long applicantId, Long managerId, EvaluationRequest request) {
-        boolean evaluationExists = evaluationRepository.existsByApplicantIdAndWriterId(applicantId, managerId);
+    public EvaluationResponse createEvaluation(Long applicantId, EvaluationRequest request) {
+        UserEntity writer = getUser();
+
+        boolean evaluationExists = evaluationRepository.existsByApplicantIdAndWriterId(applicantId, writer.getId());
 
         if (evaluationExists) {
             throw new IllegalArgumentException("[Error] 이미 평가한 지원자입니다.");
         }
 
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
-        ManagerEntity writer = managerRepository.findByIdOrThrow(managerId);
 
         if (request.pass()) {
             applicant.upScore();
@@ -50,10 +54,10 @@ public class EvaluationService {
     }
 
     @Transactional
-    public EvaluationResponse updateEvaluation(Long evaluationId, Long managerId, EvaluationRequest request) {
+    public EvaluationResponse updateEvaluation(Long evaluationId, EvaluationRequest request) {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
-
-        if (!Objects.equals(evaluation.getWriter().getId(), managerId)) {
+        UserEntity user = getUser();
+        if (!Objects.equals(evaluation.getWriter().getId(), user.getId())) {
             throw new IllegalArgumentException("본인의 평가만 수정이 가능합니다.");
         }
 
@@ -85,6 +89,14 @@ public class EvaluationService {
                 evaluation.getApplicant().downScore();
             }
         }
+    }
+
+    private UserEntity getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("authentication.isAuthenticated() = " + authentication.isAuthenticated());
+        System.out.println("authentication.getPrincipal(). = " + authentication.getPrincipal().toString());
+        Long userId = Long.valueOf(authentication.getPrincipal().toString());
+        return userRepository.findByIdOrThrow(userId);
     }
 
 }

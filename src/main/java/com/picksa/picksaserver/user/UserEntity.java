@@ -1,4 +1,4 @@
-package com.picksa.picksaserver.manager;
+package com.picksa.picksaserver.user;
 
 import com.picksa.picksaserver.global.domain.Part;
 import jakarta.persistence.Column;
@@ -15,10 +15,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "managers")
+@Table(name = "users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ManagerEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,12 +38,16 @@ public class ManagerEntity {
     @Enumerated(EnumType.STRING)
     private Position position;
 
+    @Column(nullable = false)
+    private String email;
+
     @Builder
-    public ManagerEntity(int generation, String name, Part part, Position position) {
+    public UserEntity(int generation, String name, Part part, Position position, String email) {
         this.generation = generation;
         this.name = name;
         this.part = part;
         this.position = position;
+        this.email = email;
     }
 
 }

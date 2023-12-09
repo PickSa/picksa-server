@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.question;
 
-import com.picksa.picksaserver.manager.ManagerEntity;
+import com.picksa.picksaserver.user.UserEntity;
 import com.picksa.picksaserver.question.dto.QuestionDetermine;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,10 +40,10 @@ public class QuestionEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id", nullable = false)
-    private ManagerEntity writer;
+    private UserEntity writer;
 
     @Builder
-    public QuestionEntity(int sequence, boolean isDetermined, String content, TagEntity tag, ManagerEntity writer) {
+    public QuestionEntity(int sequence, boolean isDetermined, String content, TagEntity tag, UserEntity writer) {
         this.sequence = sequence;
         this.isDetermined = isDetermined;
         this.content = content;

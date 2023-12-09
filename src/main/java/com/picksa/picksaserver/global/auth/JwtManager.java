@@ -1,23 +1,22 @@
 package com.picksa.picksaserver.global.auth;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
+@Component
 public class JwtManager {
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret_key}")
     private String JWT_SECRET;
-
-    @PostConstruct
-    protected void init() {
-        JWT_SECRET = Base64.getEncoder().encodeToString(JWT_SECRET.getBytes(StandardCharsets.UTF_8));
-    }
 
     public JwtValidationType validateToken(String token) {
         try {
@@ -35,8 +34,7 @@ public class JwtManager {
     }
 
     private SecretKey getSigningKey() {
-        String encodedKey= Base64.getEncoder().encodeToString(JWT_SECRET.getBytes());
-        return Keys.hmacShaKeyFor(encodedKey.getBytes());
+        return Keys.hmacShaKeyFor(JWT_SECRET.getBytes(StandardCharsets.UTF_8));
     }
 
     private Claims getBody(final String token) {
@@ -51,4 +49,5 @@ public class JwtManager {
         Claims claims = getBody(token);
         return Long.valueOf(claims.get("id").toString());
     }
+
 }
