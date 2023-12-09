@@ -1,7 +1,9 @@
 package com.picksa.picksaserver.evaluation.controller;
 
+import com.picksa.picksaserver.evaluation.dto.request.DecideRequest;
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
+import lombok.Getter;
 import com.picksa.picksaserver.evaluation.service.EvaluationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,6 @@ public class EvaluationController {
     @PatchMapping("/{evaluationId}")
     public ResponseEntity<EvaluationResponse> update(
             @PathVariable(name = "evaluationId") Long evaluationId,
-            @RequestHeader(name = "userId") Long userId,
             @RequestBody EvaluationRequest request
     ) {
         EvaluationResponse response = service.updateEvaluation(evaluationId, request);
@@ -45,8 +46,22 @@ public class EvaluationController {
     }
 
     @GetMapping("/applicant/{applicantId}")
-    public ResponseEntity<?> getByApplicant(@PathVariable(name = "applicantId") Long applicantId) {
+    public ResponseEntity<?> getByApplicant(
+        @PathVariable(name = "applicantId") Long applicantId) {
         return ResponseEntity.ok(service.getEvaluationByApplicant(applicantId));
+    }
+
+    @PatchMapping("/final/{applicantId}")
+    public ResponseEntity<?> decide(
+        @PathVariable(name = "applicantId") Long applicantId,
+        @RequestBody DecideRequest decideRequest
+    ) {
+        return ResponseEntity.ok(service.decideEvaluation(applicantId, decideRequest));
+    }
+
+    @GetMapping("/final/{applicantId}")
+    public ResponseEntity<?> getFinalAll(@PathVariable(name = "applicantId") Long applicantId) {
+        return ResponseEntity.ok(service.getFinalResult(applicantId));
     }
 
 }

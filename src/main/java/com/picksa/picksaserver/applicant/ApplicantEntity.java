@@ -102,4 +102,12 @@ public class ApplicantEntity {
         this.score--;
     }
 
+    public void evaluationDone() {
+        this.isEvaluated = true;
+    }
+
+    public void decideResult(Result decide) {
+        this.result = decide;
+    }
+
 }

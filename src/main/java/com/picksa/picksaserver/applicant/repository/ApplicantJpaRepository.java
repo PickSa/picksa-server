@@ -1,5 +1,7 @@
-package com.picksa.picksaserver.applicant;
+package com.picksa.picksaserver.applicant.repository;
 
+import com.picksa.picksaserver.applicant.ApplicantEntity;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ApplicantJpaRepository extends JpaRepository<ApplicantEntity, Long> {
