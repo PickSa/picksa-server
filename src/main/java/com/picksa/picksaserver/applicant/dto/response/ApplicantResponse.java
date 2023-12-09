@@ -9,6 +9,7 @@ public record ApplicantResponse(
         Part part,
         String name,
         String studentId,
+        String phone,
         int score,
         boolean isEvaluated,
         Result result
