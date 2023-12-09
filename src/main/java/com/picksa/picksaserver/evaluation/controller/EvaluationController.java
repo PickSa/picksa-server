@@ -39,7 +39,6 @@ public class EvaluationController {
     @PatchMapping("/{evaluationId}")
     public ResponseEntity<EvaluationResponse> update(
             @PathVariable(name = "evaluationId") Long evaluationId,
-            @RequestHeader(name = "userId") Long userId,
             @RequestBody EvaluationRequest request
     ) {
         EvaluationResponse response = service.updateEvaluation(evaluationId, request);
@@ -55,10 +54,9 @@ public class EvaluationController {
     @PatchMapping("/final/{applicantId}")
     public ResponseEntity<?> decide(
         @PathVariable(name = "applicantId") Long applicantId,
-        @RequestHeader(name = "managerId") Long managerId,
         @RequestBody DecideRequest decideRequest
     ) {
-        return ResponseEntity.ok(service.decideEvaluation(applicantId, managerId, decideRequest));
+        return ResponseEntity.ok(service.decideEvaluation(applicantId, decideRequest));
     }
 
     @GetMapping("/final/{applicantId}")
