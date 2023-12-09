@@ -5,6 +5,7 @@ import com.picksa.picksaserver.applicant.dto.response.ApplicantAllResponse;
 import com.picksa.picksaserver.applicant.dto.response.ApplicantResponse;
 import com.picksa.picksaserver.applicant.repository.ApplicantQueryRepository;
 import com.picksa.picksaserver.global.domain.Part;
+import com.picksa.picksaserver.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ import static com.picksa.picksaserver.global.domain.Generation.getGenerationOfTh
 public class ApplicantService {
 
     private final ApplicantQueryRepository applicantQueryRepository;
-    private final com.picksa.picksaserver.user.repository.UserRepository userRepository;
+    private final UserJpaRepository userRepository;
 
     @Transactional(readOnly = true)
     public ApplicantAllResponse getAllApplicants(OrderCondition orderCondition) {

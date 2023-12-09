@@ -1,7 +1,7 @@
 package com.picksa.picksaserver.question.service;
 
 import com.picksa.picksaserver.user.UserEntity;
-import com.picksa.picksaserver.user.UserJpaRepository;
+import com.picksa.picksaserver.user.repository.UserJpaRepository;
 import com.picksa.picksaserver.question.QuestionEntity;
 import com.picksa.picksaserver.question.TagEntity;
 import com.picksa.picksaserver.question.dto.request.QuestionCreateRequest;
@@ -14,6 +14,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,8 +31,8 @@ public class QuestionService {
     private final UserJpaRepository userRepository;
     private final TagRepository tagRepository;
 
-    public QuestionCreateResponse createQuestion(Long userId, QuestionCreateRequest request) {
-        UserEntity writer = userRepository.findByIdOrThrow(userId);
+    public QuestionCreateResponse createQuestion(QuestionCreateRequest request) {
+        UserEntity writer = getUser();
 
         Optional<TagEntity> optionalTag = tagRepository.findById(request.tagId());
         TagEntity tag = optionalTag.orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 태그입니다."));
@@ -40,8 +42,8 @@ public class QuestionService {
         return new QuestionCreateResponse(saved.getId(), saved.getContent(), saved.getTag().getId());
     }
 
-    public List<QuestionDetermine> determineQuestions(Long userId, List<QuestionDetermine> requests) {
-        UserEntity writer = userRepository.findByIdOrThrow(userId);
+    public List<QuestionDetermine> determineQuestions(List<QuestionDetermine> requests) {
+        UserEntity writer = getUser();
         List<QuestionEntity> questionsToUpdate = questionRepository.findAllById(
                 requests.stream()
                         .map(request -> request.id())
@@ -63,8 +65,8 @@ public class QuestionService {
     }
 
     @Transactional
-    public QuestionDeleteResponse deleteQuestion(Long managerId, Long questionId) {
-        ManagerEntity writer = managerRepository.findByIdOrThrow(managerId);
+    public QuestionDeleteResponse deleteQuestion(Long questionId) {
+        UserEntity writer = getUser();
         QuestionEntity question = questionRepository.findById(questionId)
         		.orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 질문입니다. id: " + questionId));
 
@@ -75,4 +77,11 @@ public class QuestionService {
         question.deleteQuestion();
         return QuestionDeleteResponse.of(question.getId());
     }
+
+    private UserEntity getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = Long.valueOf(authentication.getPrincipal().toString());
+        return userRepository.findByIdOrThrow(userId);
+    }
+
 }

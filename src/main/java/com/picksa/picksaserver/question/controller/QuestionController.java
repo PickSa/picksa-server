@@ -20,28 +20,25 @@ public class QuestionController {
 
     @PostMapping("")
     public ResponseEntity<QuestionCreateResponse> create (
-            @RequestHeader("userId") Long userId,
             @RequestBody QuestionCreateRequest request
     ) {
-        QuestionCreateResponse response = questionService.createQuestion(userId, request);
+        QuestionCreateResponse response = questionService.createQuestion(request);
         return ResponseEntity.created(null).body(response);
     }
 
     @PatchMapping("/final")
     public ResponseEntity<List<QuestionDetermine>> updateFinal (
-            @RequestHeader("userId") Long userId,
             @RequestBody List<QuestionDetermine> requests
             ) {
-        List<QuestionDetermine> determinedQuestions = questionService.determineQuestions(userId, requests);
+        List<QuestionDetermine> determinedQuestions = questionService.determineQuestions(requests);
         return ResponseEntity.ok(determinedQuestions);
     }
 
     @DeleteMapping("/{questionId}")
     public ResponseEntity<QuestionDeleteResponse> deleteQuestion(
-            @RequestHeader("managerId") Long managerId,
     		@PathVariable("questionId") Long questionId
     		) {
-        QuestionDeleteResponse response = questionService.deleteQuestion(managerId, questionId);
+        QuestionDeleteResponse response = questionService.deleteQuestion(questionId);
     	return ResponseEntity.ok(response);
     }
 
