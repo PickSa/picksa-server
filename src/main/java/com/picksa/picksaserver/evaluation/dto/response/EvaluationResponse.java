@@ -7,7 +7,7 @@ public record EvaluationResponse(
         Long managerId,
         Long applicantId,
         String name,
-        Boolean pass,
+        boolean pass,
         String comment
 ) {
     public static EvaluationResponse of(EvaluationEntity evaluation) {
