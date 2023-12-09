@@ -27,7 +27,6 @@ public class WebSecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/api/v1/questions/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/tags/**")).permitAll()
                         .anyRequest()
                         .authenticated()

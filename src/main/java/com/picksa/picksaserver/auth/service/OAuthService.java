@@ -5,7 +5,7 @@ import com.picksa.picksaserver.auth.dto.SignInResponse;
 import com.picksa.picksaserver.auth.exception.AuthenticationUserNotRegisteredException;
 import com.picksa.picksaserver.global.auth.JwtProvider;
 import com.picksa.picksaserver.user.UserEntity;
-import com.picksa.picksaserver.user.UserJpaRepository;
+import com.picksa.picksaserver.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

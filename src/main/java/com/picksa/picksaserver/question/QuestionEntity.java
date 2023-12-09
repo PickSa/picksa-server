@@ -16,6 +16,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "questions")
 @Getter
@@ -33,6 +35,8 @@ public class QuestionEntity {
     private boolean isDetermined;
 
     private String content;
+
+    private LocalDateTime deletedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id", nullable = false)
@@ -56,5 +60,8 @@ public class QuestionEntity {
         return new QuestionDetermine(this.id, this.isDetermined);
     }
 
+    public void deleteQuestion() {
+        this.deletedAt = LocalDateTime.now();
+    }
 }
 
