@@ -37,6 +37,7 @@ public class ApplicantQueryRepositoryImpl implements ApplicantQueryRepository {
                         applicantEntity.part,
                         applicantEntity.name,
                         applicantEntity.studentId,
+                        applicantEntity.phone,
                         applicantEntity.score,
                         applicantEntity.isEvaluated,
                         applicantEntity.result))
@@ -57,6 +58,7 @@ public class ApplicantQueryRepositoryImpl implements ApplicantQueryRepository {
                         applicantEntity.part,
                         applicantEntity.name,
                         applicantEntity.studentId,
+                        applicantEntity.phone,
                         applicantEntity.score,
                         applicantEntity.isEvaluated,
                         applicantEntity.result))
