@@ -1,5 +1,8 @@
 package com.picksa.picksaserver.question.service;
 
+import com.picksa.picksaserver.global.domain.Part;
+import com.picksa.picksaserver.question.QuestionOrderCondition;
+import com.picksa.picksaserver.question.dto.response.QuestionResponse;
 import com.picksa.picksaserver.user.UserEntity;
 import com.picksa.picksaserver.user.repository.UserJpaRepository;
 import com.picksa.picksaserver.question.QuestionEntity;
@@ -22,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.picksa.picksaserver.global.domain.Generation.getGenerationOfThisYear;
 
 @Service
 @RequiredArgsConstructor
@@ -84,4 +89,10 @@ public class QuestionService {
         return userRepository.findByIdOrThrow(userId);
     }
 
+    public List<QuestionResponse> getAllQuestionsByPart(Part partCondition, QuestionOrderCondition orderCondition) {
+        int generation = getGenerationOfThisYear();
+
+        List<QuestionResponse> questions = questionRepository.findAllQuestionsByPart(partCondition, orderCondition, generation);
+        return questions;
+    }
 }

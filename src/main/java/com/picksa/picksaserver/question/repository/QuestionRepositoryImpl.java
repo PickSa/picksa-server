@@ -1,9 +1,21 @@
 package com.picksa.picksaserver.question.repository;
 
+import com.picksa.picksaserver.global.domain.Part;
+import com.picksa.picksaserver.question.QuestionOrderCondition;
+import com.picksa.picksaserver.question.dto.response.QuestionResponse;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static com.picksa.picksaserver.question.QQuestionEntity.questionEntity;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,4 +30,28 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    @Override
+    public List<QuestionResponse> findAllQuestionsByPart(Part part, QuestionOrderCondition condition, int generation) {
+        JPAQuery<QuestionResponse> query = jpaQueryFactory.select(Projections.constructor(
+                        QuestionResponse.class,
+                        questionEntity.id,
+                        questionEntity.sequence,
+                        questionEntity.isDetermined,
+                        questionEntity.content,
+                        questionEntity.tag.id,
+                        questionEntity.tag.content,
+                        questionEntity.writer.id,
+                        questionEntity.createdAt))
+                .from(questionEntity)
+                .where(questionEntity.tag.part.eq(part),
+                        questionEntity.tag.generation.eq(generation));
+
+        if (condition == QuestionOrderCondition.LASTEST) {
+            query.orderBy(questionEntity.createdAt.desc());
+        } else if (condition == QuestionOrderCondition.TAG) {
+            query.orderBy(questionEntity.tag.content.asc(), questionEntity.createdAt.desc());
+        }
+
+        return query.fetch();
+    }
 }
