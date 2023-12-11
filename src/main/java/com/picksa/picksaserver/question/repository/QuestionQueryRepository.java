@@ -8,8 +8,7 @@ import java.util.List;
 
 public interface QuestionQueryRepository {
 
-    // 파트별 질문 리스트 조회(확정 여부에 관계 없이)
     List<QuestionResponse> findAllQuestionsByPart(Part part, QuestionOrderCondition condition, int generation);
 
-    // 파트별 확정된 질문 리스트 조회
+    List<QuestionResponse> findDeterminedQuestionsByPart(Part part, int generation);
 }

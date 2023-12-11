@@ -24,9 +24,7 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("")
-    public ResponseEntity<QuestionCreateResponse> create (
-            @RequestBody QuestionCreateRequest request
-    ) {
+    public ResponseEntity<QuestionCreateResponse> create (@RequestBody QuestionCreateRequest request) {
         QuestionCreateResponse response = questionService.createQuestion(request);
         return ResponseEntity.created(null).body(response);
     }
@@ -51,11 +49,19 @@ public class QuestionController {
     }
 
     @PatchMapping("/final")
-    public ResponseEntity<List<QuestionDetermine>> updateFinal (
-            @RequestBody List<QuestionDetermine> requests
-            ) {
+    public ResponseEntity<List<QuestionDetermine>> updateFinal (@RequestBody List<QuestionDetermine> requests) {
         List<QuestionDetermine> determinedQuestions = questionService.determineQuestions(requests);
         return ResponseEntity.ok(determinedQuestions);
+    }
+
+    @GetMapping("/final")
+    public ResponseEntity<List<QuestionResponse>> getFinalQuestions (@RequestParam String part) {
+        Part partCondition = Optional.of(part)
+                .filter(StringUtils::hasText)
+                .map(Part::from)
+                .orElseThrow(() -> new IllegalArgumentException("[Error] part 파라미터가 잘못되었습니다."));
+        List<QuestionResponse> questions = questionService.getDeterminedQuestions(partCondition);
+        return ResponseEntity.ok(questions);
     }
 
     @DeleteMapping("/{questionId}")

@@ -91,8 +91,11 @@ public class QuestionService {
 
     public List<QuestionResponse> getAllQuestionsByPart(Part partCondition, QuestionOrderCondition orderCondition) {
         int generation = getGenerationOfThisYear();
+        return questionRepository.findAllQuestionsByPart(partCondition, orderCondition, generation);
+    }
 
-        List<QuestionResponse> questions = questionRepository.findAllQuestionsByPart(partCondition, orderCondition, generation);
-        return questions;
+    public List<QuestionResponse> getDeterminedQuestions(Part partCondition) {
+        int generation = getGenerationOfThisYear();
+        return questionRepository.findDeterminedQuestionsByPart(partCondition, generation);
     }
 }

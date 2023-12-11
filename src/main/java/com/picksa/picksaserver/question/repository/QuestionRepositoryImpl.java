@@ -54,4 +54,24 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
 
         return query.fetch();
     }
+
+    @Override
+    public List<QuestionResponse> findDeterminedQuestionsByPart(Part part, int generation) {
+            return jpaQueryFactory.select(Projections.constructor(
+                            QuestionResponse.class,
+                            questionEntity.id,
+                            questionEntity.sequence,
+                            questionEntity.isDetermined,
+                            questionEntity.content,
+                            questionEntity.tag.id,
+                            questionEntity.tag.content,
+                            questionEntity.writer.id,
+                            questionEntity.createdAt))
+                    .from(questionEntity)
+                    .where(questionEntity.tag.part.eq(part),
+                            questionEntity.tag.generation.eq(generation),
+                            questionEntity.isDetermined.eq(true))
+                    .orderBy(questionEntity.sequence.asc())
+                    .fetch();
+    }
 }
