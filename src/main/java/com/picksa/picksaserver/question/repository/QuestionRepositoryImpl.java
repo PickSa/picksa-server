@@ -6,6 +6,7 @@ import com.picksa.picksaserver.question.dto.response.QuestionResponse;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jdk.swing.interop.SwingInterOpUtils;
@@ -68,10 +69,17 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
                             questionEntity.writer.id,
                             questionEntity.createdAt))
                     .from(questionEntity)
-                    .where(questionEntity.tag.part.eq(part),
+                    .where(questionEntity.tag.part.eq(part)
+                                    .or(questionEntity.tag.part.eq(Part.ALL)),
                             questionEntity.tag.generation.eq(generation),
                             questionEntity.isDetermined.eq(true))
-                    .orderBy(questionEntity.sequence.asc())
+                    .orderBy(
+                            new CaseBuilder()
+                                    .when(questionEntity.tag.part.eq(Part.ALL))
+                                    .then(0)
+                                    .otherwise(1).asc(),
+                            questionEntity.tag.part.asc(),
+                            questionEntity.sequence.asc())
                     .fetch();
     }
 }
