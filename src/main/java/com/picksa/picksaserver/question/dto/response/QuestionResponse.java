@@ -10,6 +10,7 @@ public record QuestionResponse(
         Long tagId,
         String tagContent,
         Long writerId,
+        String writerName,
         LocalDateTime createdAt
 ) {
 }
