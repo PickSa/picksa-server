@@ -47,9 +47,9 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
                         questionEntity.tag.generation.eq(generation));
 
         if (condition == QuestionOrderCondition.LASTEST) {
-            query.orderBy(questionEntity.createdAt.desc());
+            query.orderBy(questionEntity.isDetermined.desc(), questionEntity.createdAt.desc());
         } else if (condition == QuestionOrderCondition.TAG) {
-            query.orderBy(questionEntity.tag.content.asc(), questionEntity.createdAt.desc());
+            query.orderBy(questionEntity.isDetermined.desc(), questionEntity.tag.id.asc(), questionEntity.createdAt.desc());
         }
 
         return query.fetch();
