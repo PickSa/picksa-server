@@ -1,8 +1,8 @@
 package com.picksa.picksaserver.question.dto.request;
 
-import com.picksa.picksaserver.user.UserEntity;
 import com.picksa.picksaserver.question.QuestionEntity;
 import com.picksa.picksaserver.question.TagEntity;
+import com.picksa.picksaserver.user.UserEntity;
 
 public record QuestionCreateRequest(String content, Long tagId) {
 
