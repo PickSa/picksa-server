@@ -1,10 +1,9 @@
 package com.picksa.picksaserver.applicant.repository;
 
 import com.picksa.picksaserver.applicant.ApplicantEntity;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ApplicantJpaRepository extends JpaRepository<ApplicantEntity, Long> {
+public interface ApplicantRepository extends JpaRepository<ApplicantEntity, Long>, ApplicantQueryRepository {
 
     default ApplicantEntity findByIdOrThrow(Long id) {
         return findById(id).orElseThrow(
