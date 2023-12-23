@@ -1,5 +1,8 @@
 package com.picksa.picksaserver.global.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum Part {
 
     ALL("공통"),
