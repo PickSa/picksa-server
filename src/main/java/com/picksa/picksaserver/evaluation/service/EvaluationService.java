@@ -1,7 +1,7 @@
 package com.picksa.picksaserver.evaluation.service;
 
 import com.picksa.picksaserver.applicant.ApplicantEntity;
-import com.picksa.picksaserver.applicant.repository.ApplicantJpaRepository;
+import com.picksa.picksaserver.applicant.repository.ApplicantRepository;
 import com.picksa.picksaserver.evaluation.EvaluationEntity;
 import com.picksa.picksaserver.evaluation.EvaluationJpaRepository;
 import com.picksa.picksaserver.evaluation.dto.request.DecideRequest;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public class EvaluationService {
 
     private final EvaluationJpaRepository evaluationRepository;
-    private final ApplicantJpaRepository applicantRepository;
+    private final ApplicantRepository applicantRepository;
     private final UserJpaRepository userRepository;
 
     @Transactional

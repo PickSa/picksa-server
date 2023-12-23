@@ -1,8 +1,9 @@
 package com.picksa.picksaserver.evaluation;
 
 import com.picksa.picksaserver.applicant.ApplicantEntity;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface EvaluationJpaRepository extends JpaRepository<EvaluationEntity, Long> {
 
