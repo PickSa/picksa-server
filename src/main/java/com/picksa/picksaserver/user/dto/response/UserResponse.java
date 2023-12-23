@@ -3,11 +3,13 @@ package com.picksa.picksaserver.user.dto.response;
 import com.picksa.picksaserver.user.UserEntity;
 
 public record UserResponse(
-        String name
+        String name,
+        String role
 ) {
 
     public static UserResponse from(UserEntity user) {
-        return new UserResponse(user.getName());
+        String role = user.getPosition().getPositionName();
+        return new UserResponse(user.getName(), role);
     }
 
 }
