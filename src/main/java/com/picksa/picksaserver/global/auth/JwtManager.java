@@ -13,10 +13,12 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 
 @Component
+@RequiredArgsConstructor
 public class JwtManager {
 
     @Value("${jwt.secret_key}")
     private String JWT_SECRET;
+    private final UserDetailsService userDetailsService;
 
     public JwtValidationType validateToken(String token) {
         try {
@@ -45,9 +47,10 @@ public class JwtManager {
                 .getBody();
     }
 
-    public Long getUserFromJwt(String token) {
-        Claims claims = getBody(token);
-        return Long.valueOf(claims.get("id").toString());
+    public UserAuthentication getAuthenticationFromJwt(String token) {
+        String userId = getBody(token).get("id").toString();
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+        return UserAuthentication.from(userDetails);
     }
 
 }

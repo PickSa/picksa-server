@@ -24,10 +24,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             final String token = getTokenFromJwt(request);
-            if (jwtManager.validateToken(token) == JwtValidationType.VALID_JWT) {
-                Long memberId = jwtManager.getUserFromJwt(token);
-                UserAuthentication authentication = new UserAuthentication(memberId.toString(), null, null);       //사용자 객체 생성
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));  // request 정보로 사용자 객체 디테일 설정
+            JwtValidationType jwtValidationType = jwtManager.validateToken(token);
+            if (jwtValidationType == VALID_JWT) {
+                UserAuthentication authentication = jwtManager.getAuthenticationFromJwt(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception exception) {
