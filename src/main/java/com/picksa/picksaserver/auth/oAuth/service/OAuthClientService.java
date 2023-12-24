@@ -1,7 +1,7 @@
-package com.picksa.picksaserver.auth.service;
+package com.picksa.picksaserver.auth.oAuth.service;
 
-import com.picksa.picksaserver.auth.client.OAuthClient;
-import com.picksa.picksaserver.auth.dto.OAuthUserInfoResponse;
+import com.picksa.picksaserver.auth.oAuth.client.OAuthClient;
+import com.picksa.picksaserver.auth.oAuth.dto.OAuthUserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

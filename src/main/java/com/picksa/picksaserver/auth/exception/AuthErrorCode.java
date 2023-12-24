@@ -4,7 +4,7 @@ import com.picksa.picksaserver.global.exception.ErrorCode;
 
 public enum AuthErrorCode implements ErrorCode {
 
-    AUTHENTICATION_EMPTY("A001", "인증 정보가 존재하지 않습니다."),
+    AUTHENTICATION_FAILED("A001", "인증을 실패했습니다."),
 
     // JWT
     TOKEN_EXPIRED("A002", "토큰이 만료되었습니다."),
@@ -15,8 +15,8 @@ public enum AuthErrorCode implements ErrorCode {
     PLATFORM_USER_REQUEST_FAILED("A005", "플랫폼에서 사용자 정보를 획득하는 데 실패했습니다."),
 
     // User
-    USER_NOT_REGISTERED("A006", "사용자가 등록되어있지 않습니다."),
-    USER_NOT_PERMITTED("A007", "사용자에게 권한이 없습니다.");
+    AUTH_USER_NOT_EXIST("A006", "사용자가 등록되어있지 않습니다."),
+    AUTH_USER_NOT_PERMITTED("A007", "사용자에게 권한이 없습니다.");
 
     private final String code;
     private final String message;

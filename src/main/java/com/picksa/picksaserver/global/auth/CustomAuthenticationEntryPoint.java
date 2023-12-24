@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.picksa.picksaserver.auth.exception.AuthErrorCode.AUTHENTICATION_EMPTY;
+import static com.picksa.picksaserver.auth.exception.AuthErrorCode.AUTHENTICATION_FAILED;
 
 @Component
 @Slf4j
@@ -27,7 +27,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
 
-        AuthErrorResponse errorResponse = AuthErrorResponse.from(AUTHENTICATION_EMPTY);
+        AuthErrorResponse errorResponse = AuthErrorResponse.from(AUTHENTICATION_FAILED);
         String body = objectMapper.writeValueAsString(errorResponse);
         response.getWriter().write(body);
     }

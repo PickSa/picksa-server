@@ -7,8 +7,7 @@ public enum Result {
 
     PENDING("미정"),
     PASS("합격"),
-    FAILURE("불합격"),
-    ;
+    FAILURE("불합격");
 
     private final String resultName;
 

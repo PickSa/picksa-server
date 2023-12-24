@@ -1,15 +1,18 @@
 package com.picksa.picksaserver.evaluation;
 
 import com.picksa.picksaserver.applicant.ApplicantEntity;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface EvaluationJpaRepository extends JpaRepository<EvaluationEntity, Long> {
+import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.EVALUATION_NOT_EXIST;
+
+public interface EvaluationRepository extends JpaRepository<EvaluationEntity, Long> {
 
     default EvaluationEntity findByIdOrThrow(Long id) {
         return findById(id).orElseThrow(
-                () -> new IllegalArgumentException(("[Error] 해당 평가가 존재하지 않습니다.")));
+                () -> new EntityNotFoundException((EVALUATION_NOT_EXIST)));
     }
 
     boolean existsByApplicantIdAndWriterId(Long applicantId, Long memberId);

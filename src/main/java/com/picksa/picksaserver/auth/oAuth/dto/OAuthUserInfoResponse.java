@@ -1,4 +1,4 @@
-package com.picksa.picksaserver.auth.dto;
+package com.picksa.picksaserver.auth.oAuth.dto;
 
 public interface OAuthUserInfoResponse {
 

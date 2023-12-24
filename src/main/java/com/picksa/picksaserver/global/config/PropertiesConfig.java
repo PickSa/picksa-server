@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.global.config;
 
-import com.picksa.picksaserver.auth.config.GoogleOAuthProperties;
+import com.picksa.picksaserver.auth.oAuth.config.GoogleOAuthProperties;
 import com.picksa.picksaserver.global.auth.JwtProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

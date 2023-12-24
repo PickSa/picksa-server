@@ -1,28 +1,33 @@
 package com.picksa.picksaserver.global.exception;
 
+import com.picksa.picksaserver.global.response.DefaultErrorResponse;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-    }
+    public ResponseEntity<DefaultErrorResponse> handleEntityNotFoundException(EntityNotFoundException exception) {
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(DefaultErrorResponse.from(exception.getMessage()));    }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    public ResponseEntity<DefaultErrorResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(DefaultErrorResponse.from(exception.getMessage()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException e) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+    public ResponseEntity<DefaultErrorResponse> handleAccessDeniedException(AccessDeniedException exception) {
+        return ResponseEntity.status(FORBIDDEN)
+                .body(DefaultErrorResponse.from(exception.getMessage()));
     }
 
 }

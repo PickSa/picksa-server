@@ -1,7 +1,7 @@
 package com.picksa.picksaserver.global.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.picksa.picksaserver.global.exception.AuthenticationException;
+import com.picksa.picksaserver.auth.exception.AuthenticationException;
 import com.picksa.picksaserver.global.exception.ErrorCode;
 import com.picksa.picksaserver.global.response.AuthErrorResponse;
 import jakarta.servlet.FilterChain;

@@ -1,7 +1,7 @@
 package com.picksa.picksaserver.auth.controller;
 
-import com.picksa.picksaserver.auth.dto.SignInResponse;
-import com.picksa.picksaserver.auth.service.OAuthService;
+import com.picksa.picksaserver.auth.oAuth.dto.SignInResponse;
+import com.picksa.picksaserver.auth.oAuth.service.OAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

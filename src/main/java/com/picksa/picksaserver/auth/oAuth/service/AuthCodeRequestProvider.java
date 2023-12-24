@@ -1,4 +1,4 @@
-package com.picksa.picksaserver.auth.service;
+package com.picksa.picksaserver.auth.oAuth.service;
 
 public interface AuthCodeRequestProvider {
 

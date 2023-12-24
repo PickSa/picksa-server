@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.global.auth;
 
-import com.picksa.picksaserver.auth.exception.AuthenticationUserNotRegisteredException;
+import com.picksa.picksaserver.auth.exception.AuthenticationUserNotExistException;
 import com.picksa.picksaserver.auth.exception.JwtAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,7 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.picksa.picksaserver.auth.exception.AuthErrorCode.USER_NOT_REGISTERED;
+import static com.picksa.picksaserver.auth.exception.AuthErrorCode.AUTH_USER_NOT_EXIST;
 import static com.picksa.picksaserver.global.auth.JwtValidationType.EMPTY_JWT;
 import static com.picksa.picksaserver.global.auth.JwtValidationType.VALID_JWT;
 
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 throw new JwtAuthenticationException(jwtValidationType.getErrorCode());
             }
         } catch (UsernameNotFoundException exception) {
-            throw new AuthenticationUserNotRegisteredException(USER_NOT_REGISTERED);
+            throw new AuthenticationUserNotExistException(AUTH_USER_NOT_EXIST);
         }
 
         filterChain.doFilter(request, response);

@@ -1,6 +1,6 @@
-package com.picksa.picksaserver.auth.service;
+package com.picksa.picksaserver.auth.oAuth.service;
 
-import com.picksa.picksaserver.auth.config.GoogleOAuthProperties;
+import com.picksa.picksaserver.auth.oAuth.config.GoogleOAuthProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
