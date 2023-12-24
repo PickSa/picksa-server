@@ -33,7 +33,7 @@ import static com.picksa.picksaserver.global.domain.Generation.getGenerationOfTh
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final UserJpaRepository userRepository;
+    private final UserRepository userRepository;
     private final TagRepository tagRepository;
 
     public QuestionCreateResponse createQuestion(QuestionCreateRequest request) {

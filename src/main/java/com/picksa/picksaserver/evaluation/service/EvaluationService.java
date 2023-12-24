@@ -11,7 +11,7 @@ import com.picksa.picksaserver.evaluation.dto.response.EvaluationResponse;
 import com.picksa.picksaserver.evaluation.dto.response.FinalEvaluationResponse;
 import com.picksa.picksaserver.user.Position;
 import com.picksa.picksaserver.user.UserEntity;
-import com.picksa.picksaserver.user.repository.UserJpaRepository;
+import com.picksa.picksaserver.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +27,7 @@ public class EvaluationService {
 
     private final EvaluationJpaRepository evaluationRepository;
     private final ApplicantRepository applicantRepository;
-    private final UserJpaRepository userRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public EvaluationResponse createEvaluation(Long applicantId, EvaluationRequest request) {
