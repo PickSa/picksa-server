@@ -2,6 +2,7 @@ package com.picksa.picksaserver.global.config;
 
 import com.picksa.picksaserver.global.auth.AuthenticationExceptionHandlerFilter;
 import com.picksa.picksaserver.global.auth.CustomAccessDeniedHandler;
+import com.picksa.picksaserver.global.auth.CustomAuthenticationEntryPoint;
 import com.picksa.picksaserver.global.auth.JwtAuthenticationFilter;
 import com.picksa.picksaserver.user.Position;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class WebSecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationExceptionHandlerFilter authenticationExceptionHandlerFilter;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,6 +44,7 @@ public class WebSecurityConfig {
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(authenticationExceptionHandlerFilter, JwtAuthenticationFilter.class)
                 .exceptionHandling(handler -> handler
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .csrf(AbstractHttpConfigurer::disable)
