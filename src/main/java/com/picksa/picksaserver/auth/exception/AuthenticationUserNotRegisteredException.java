@@ -1,11 +1,9 @@
 package com.picksa.picksaserver.auth.exception;
 
-import org.springframework.security.core.AuthenticationException;
+import com.picksa.picksaserver.global.exception.ErrorCode;
 
-public class AuthenticationUserNotRegisteredException extends AuthenticationException {
-
-    public AuthenticationUserNotRegisteredException(String msg) {
-        super(msg);
+public class AuthenticationUserNotRegisteredException extends PicksaAuthenticationException {
+    public AuthenticationUserNotRegisteredException(ErrorCode errorCode) {
+        super(errorCode);
     }
-
 }
