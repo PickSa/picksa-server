@@ -1,5 +1,6 @@
 package com.picksa.picksaserver.question.service;
 
+import com.picksa.picksaserver.global.auth.CustomUserDetails;
 import com.picksa.picksaserver.global.domain.Part;
 import com.picksa.picksaserver.question.QuestionEntity;
 import com.picksa.picksaserver.question.QuestionOrderCondition;
@@ -12,7 +13,6 @@ import com.picksa.picksaserver.question.dto.response.QuestionResponse;
 import com.picksa.picksaserver.question.repository.QuestionRepository;
 import com.picksa.picksaserver.question.repository.TagRepository;
 import com.picksa.picksaserver.user.UserEntity;
-import com.picksa.picksaserver.user.repository.UserJpaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,6 @@ import static com.picksa.picksaserver.global.domain.Generation.getGenerationOfTh
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final UserRepository userRepository;
     private final TagRepository tagRepository;
 
     public QuestionCreateResponse createQuestion(QuestionCreateRequest request) {
@@ -73,7 +72,7 @@ public class QuestionService {
     public QuestionDeleteResponse deleteQuestion(Long questionId) {
         UserEntity writer = getUser();
         QuestionEntity question = questionRepository.findById(questionId)
-        		.orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 질문입니다. id: " + questionId));
+                .orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 질문입니다. id: " + questionId));
 
         if (!question.getWriter().getId().equals(writer.getId())) {
             throw new AccessDeniedException("[Error] 질문 작성자만 삭제할 수 있습니다.");
@@ -81,12 +80,6 @@ public class QuestionService {
 
         question.deleteQuestion();
         return QuestionDeleteResponse.of(question.getId());
-    }
-
-    private UserEntity getUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long userId = Long.valueOf(authentication.getPrincipal().toString());
-        return userRepository.findByIdOrThrow(userId);
     }
 
     public List<QuestionResponse> getAllQuestionsByPart(Part partCondition, QuestionOrderCondition orderCondition) {
@@ -97,5 +90,11 @@ public class QuestionService {
     public List<QuestionResponse> getDeterminedQuestions(Part partCondition) {
         int generation = getGenerationOfThisYear();
         return questionRepository.findDeterminedQuestionsByPart(partCondition, generation);
+    }
+
+    private UserEntity getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        return userDetails.getUserEntity();
     }
 }

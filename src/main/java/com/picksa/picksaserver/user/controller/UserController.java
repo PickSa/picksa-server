@@ -1,9 +1,11 @@
 package com.picksa.picksaserver.user.controller;
 
+import com.picksa.picksaserver.global.auth.CustomUserDetails;
 import com.picksa.picksaserver.user.dto.response.UserResponse;
-import com.picksa.picksaserver.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/user")
 public class UserController {
 
-    private final UserService userService;
-
     @GetMapping
     public ResponseEntity<UserResponse> getUser() {
-        UserResponse response = userService.getUser();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        UserResponse response = UserResponse.from(userDetails.getUserEntity());
         return ResponseEntity.ok(response);
     }
 
