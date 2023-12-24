@@ -1,10 +1,13 @@
 package com.picksa.picksaserver.global.config;
 
 import com.picksa.picksaserver.global.auth.AuthenticationExceptionHandlerFilter;
+import com.picksa.picksaserver.global.auth.CustomAccessDeniedHandler;
 import com.picksa.picksaserver.global.auth.JwtAuthenticationFilter;
+import com.picksa.picksaserver.user.Position;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -21,6 +24,7 @@ public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationExceptionHandlerFilter authenticationExceptionHandlerFilter;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,11 +34,15 @@ public class WebSecurityConfig {
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/tags/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/evaluations/final/**", HttpMethod.PATCH.name())).hasRole(Position.PART_LEADER.name())
                         .anyRequest()
                         .authenticated()
                 )
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(authenticationExceptionHandlerFilter, JwtAuthenticationFilter.class)
+                .exceptionHandling(handler -> handler
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                )
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers ->
                         headers.frameOptions(FrameOptionsConfig::sameOrigin)
