@@ -1,9 +1,9 @@
 package com.picksa.picksaserver.global.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.picksa.picksaserver.auth.exception.PicksaAuthenticationException;
+import com.picksa.picksaserver.global.exception.AuthenticationException;
 import com.picksa.picksaserver.global.exception.ErrorCode;
-import com.picksa.picksaserver.global.response.ErrorResponse;
+import com.picksa.picksaserver.global.response.AuthErrorResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,19 +25,19 @@ public class AuthenticationExceptionHandlerFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             filterChain.doFilter(request, response);
-        } catch (PicksaAuthenticationException exception) {
+        } catch (AuthenticationException exception) {
             setResponse(response, exception);
         }
     }
 
-    private void setResponse(HttpServletResponse response, PicksaAuthenticationException exception) throws IOException {
+    private void setResponse(HttpServletResponse response, AuthenticationException exception) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
 
         ErrorCode errorCode = exception.getErrorCode();
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode);
+        AuthErrorResponse errorResponse = AuthErrorResponse.from(errorCode);
         String body = objectMapper.writeValueAsString(errorResponse);
 
         response.getWriter().write(body);

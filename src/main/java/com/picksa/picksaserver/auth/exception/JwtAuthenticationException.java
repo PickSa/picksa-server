@@ -1,10 +1,9 @@
 package com.picksa.picksaserver.auth.exception;
 
+import com.picksa.picksaserver.global.exception.AuthenticationException;
 import com.picksa.picksaserver.global.exception.ErrorCode;
-import io.jsonwebtoken.Jwt;
-import org.springframework.security.core.AuthenticationException;
 
-public class JwtAuthenticationException extends PicksaAuthenticationException {
+public class JwtAuthenticationException extends AuthenticationException {
 
     public JwtAuthenticationException(ErrorCode errorCode) {
         super(errorCode);
