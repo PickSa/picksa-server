@@ -5,7 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface EvaluationJpaRepository extends JpaRepository<EvaluationEntity, Long> {
+import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.EVALUATION_NOT_EXIST;
+
+public interface EvaluationRepository extends JpaRepository<EvaluationEntity, Long> {
 
     default EvaluationEntity findByIdOrThrow(Long id) {
         return findById(id).orElseThrow(

@@ -27,7 +27,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class EvaluationService {
 
-    private final EvaluationJpaRepository evaluationRepository;
+    private final EvaluationRepository evaluationRepository;
     private final ApplicantRepository applicantRepository;
     private final UserRepository userRepository;
 
