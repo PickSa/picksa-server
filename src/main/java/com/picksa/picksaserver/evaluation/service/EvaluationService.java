@@ -3,7 +3,7 @@ package com.picksa.picksaserver.evaluation.service;
 import com.picksa.picksaserver.applicant.ApplicantEntity;
 import com.picksa.picksaserver.applicant.repository.ApplicantRepository;
 import com.picksa.picksaserver.evaluation.EvaluationEntity;
-import com.picksa.picksaserver.evaluation.EvaluationJpaRepository;
+import com.picksa.picksaserver.evaluation.EvaluationRepository;
 import com.picksa.picksaserver.evaluation.dto.request.DecideRequest;
 import com.picksa.picksaserver.evaluation.dto.request.EvaluationRequest;
 import com.picksa.picksaserver.evaluation.dto.response.DecideResponse;
@@ -15,6 +15,7 @@ import com.picksa.picksaserver.user.Position;
 import com.picksa.picksaserver.user.UserEntity;
 import com.picksa.picksaserver.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+
+import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.ALREADY_EVALUATED;
+import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.USER_NOT_PART_LEADER;
+import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.USER_PART_MISMATCHED;
+import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.UPDATE_NOT_PERMITTED;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +44,7 @@ public class EvaluationService {
         boolean evaluationExists = evaluationRepository.existsByApplicantIdAndWriterId(applicantId, writer.getId());
 
         if (evaluationExists) {
-            throw new IllegalArgumentException("[Error] 이미 평가한 지원자입니다.");
+            throw new IllegalArgumentException(ALREADY_EVALUATED);
         }
 
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
@@ -84,7 +90,7 @@ public class EvaluationService {
         EvaluationEntity evaluation = evaluationRepository.findByIdOrThrow(evaluationId);
         Long userId = getUser().getId();
         if (!Objects.equals(evaluation.getWriter().getId(), userId)) {
-            throw new IllegalArgumentException("본인의 평가만 수정이 가능합니다.");
+            throw new AccessDeniedException(UPDATE_NOT_PERMITTED);
         }
 
         manageScore(evaluation, request);
@@ -108,12 +114,12 @@ public class EvaluationService {
 
     private void isCorrectPart(ApplicantEntity applicant, UserEntity user) {
         if (user.getPart() != applicant.getPart())
-            throw new IllegalArgumentException("[ERROR] 해당 파트의 운영진이 아닙니다.");
+            throw new AccessDeniedException(USER_PART_MISMATCHED);
     }
 
     private void isPartLeader(UserEntity user) {
         if (!user.getPosition().equals(Position.PART_LEADER)) {
-            throw new IllegalArgumentException("[ERROR] 파트장이 아닙니다.");
+            throw new AccessDeniedException(USER_NOT_PART_LEADER);
         }
     }
 
