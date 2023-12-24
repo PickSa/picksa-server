@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.global.auth;
 
-import com.picksa.picksaserver.auth.exception.AuthenticationUserNotRegisteredException;
+import com.picksa.picksaserver.auth.exception.AuthenticationUserNotExistException;
 import com.picksa.picksaserver.auth.exception.JwtAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
