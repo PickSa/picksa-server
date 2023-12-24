@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 import static com.picksa.picksaserver.auth.exception.AuthErrorCode.USER_NOT_REGISTERED;
+import static com.picksa.picksaserver.global.auth.JwtValidationType.EMPTY_JWT;
 import static com.picksa.picksaserver.global.auth.JwtValidationType.VALID_JWT;
 
 
@@ -33,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (jwtValidationType == VALID_JWT) {
                 UserAuthentication authentication = jwtManager.getAuthenticationFromJwt(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else {
+            } else if (jwtValidationType != EMPTY_JWT) {
                 throw new JwtAuthenticationException(jwtValidationType.getErrorCode());
             }
         } catch (UsernameNotFoundException exception) {

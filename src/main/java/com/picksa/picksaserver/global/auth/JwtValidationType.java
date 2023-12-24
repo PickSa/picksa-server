@@ -9,12 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum JwtValidationType {
     VALID_JWT,
-
+    EMPTY_JWT,
     INVALID_JWT_SIGNATURE(AuthErrorCode.TOKEN_INVALID),
     INVALID_JWT(AuthErrorCode.TOKEN_INVALID),
     EXPIRED_JWT(AuthErrorCode.TOKEN_EXPIRED),
-    UNSUPPORTED_JWT(AuthErrorCode.TOKEN_INVALID),
-    EMPTY_JWT(AuthErrorCode.TOKEN_EMPTY);
+    UNSUPPORTED_JWT(AuthErrorCode.TOKEN_INVALID);
 
     private ErrorCode errorCode;
 
