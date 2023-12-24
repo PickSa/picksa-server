@@ -5,16 +5,18 @@ import com.picksa.picksaserver.auth.dto.SignInResponse;
 import com.picksa.picksaserver.auth.exception.AuthenticationUserNotRegisteredException;
 import com.picksa.picksaserver.global.auth.JwtProvider;
 import com.picksa.picksaserver.user.UserEntity;
-import com.picksa.picksaserver.user.repository.UserJpaRepository;
+import com.picksa.picksaserver.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import static com.picksa.picksaserver.auth.exception.AuthErrorCode.USER_NOT_REGISTERED;
 
 @Service
 @RequiredArgsConstructor
 public class OAuthService {
 
     private final AuthCodeRequestProvider authCodeRequestProvider;
-    private final UserJpaRepository userJpaRepository;
+    private final UserRepository userRepository;
     private final OAuthClientService oAuthClientService;
     private final JwtProvider jwtProvider;
 
@@ -25,8 +27,8 @@ public class OAuthService {
     public SignInResponse signIn(String authCode) {
         OAuthUserInfoResponse userInfo = oAuthClientService.getUserInfo(authCode);
 
-        UserEntity user = userJpaRepository.findByEmail(userInfo.getEmail())
-                .orElseThrow(() -> new AuthenticationUserNotRegisteredException("등록된 사용자가 아닙니다."));
+        UserEntity user = userRepository.findByEmail(userInfo.getEmail())
+                .orElseThrow(() -> new AuthenticationUserNotRegisteredException(USER_NOT_REGISTERED));
 
         String accessToken = jwtProvider.provideAccessToken(user);
 

@@ -9,7 +9,7 @@ import com.picksa.picksaserver.applicant.dto.response.ApplicantResponse;
 import com.picksa.picksaserver.applicant.repository.AnswerRepository;
 import com.picksa.picksaserver.applicant.repository.ApplicantRepository;
 import com.picksa.picksaserver.global.domain.Part;
-import com.picksa.picksaserver.user.repository.UserJpaRepository;
+import com.picksa.picksaserver.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ public class ApplicantService {
 
     private final ApplicantRepository applicantRepository;
     private final AnswerRepository answerRepository;
-    private final UserJpaRepository userRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public ApplicantAllResponse getAllApplicants(OrderCondition orderCondition) {
