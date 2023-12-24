@@ -32,6 +32,7 @@ public class WebSecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/tags/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/evaluations/final/**", HttpMethod.PATCH.name())).hasRole(Position.PART_LEADER.name())
