@@ -1,9 +1,9 @@
-package com.picksa.picksaserver.auth.client;
+package com.picksa.picksaserver.auth.oAuth.client;
 
-import com.picksa.picksaserver.auth.config.GoogleOAuthProperties;
-import com.picksa.picksaserver.auth.dto.GoogleOAuthToken;
-import com.picksa.picksaserver.auth.dto.GoogleUserInfoResponse;
-import com.picksa.picksaserver.auth.dto.OAuthUserInfoResponse;
+import com.picksa.picksaserver.auth.oAuth.config.GoogleOAuthProperties;
+import com.picksa.picksaserver.auth.oAuth.dto.GoogleOAuthToken;
+import com.picksa.picksaserver.auth.oAuth.dto.GoogleUserInfoResponse;
+import com.picksa.picksaserver.auth.oAuth.dto.OAuthUserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

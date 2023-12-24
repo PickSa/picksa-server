@@ -1,8 +1,7 @@
-package com.picksa.picksaserver.global.exception;
+package com.picksa.picksaserver.auth.exception;
 
 import com.picksa.picksaserver.global.exception.BusinessException;
 import com.picksa.picksaserver.global.exception.ErrorCode;
-import lombok.Getter;
 
 public class AuthenticationException extends BusinessException {
 

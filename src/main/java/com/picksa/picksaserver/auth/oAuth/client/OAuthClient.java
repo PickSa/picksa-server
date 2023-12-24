@@ -1,5 +1,5 @@
-package com.picksa.picksaserver.auth.client;
-import com.picksa.picksaserver.auth.dto.OAuthUserInfoResponse;
+package com.picksa.picksaserver.auth.oAuth.client;
+import com.picksa.picksaserver.auth.oAuth.dto.OAuthUserInfoResponse;
 
 public interface OAuthClient {
 

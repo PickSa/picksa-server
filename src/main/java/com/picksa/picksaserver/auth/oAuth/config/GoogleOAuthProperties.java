@@ -1,4 +1,4 @@
-package com.picksa.picksaserver.auth.config;
+package com.picksa.picksaserver.auth.oAuth.config;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

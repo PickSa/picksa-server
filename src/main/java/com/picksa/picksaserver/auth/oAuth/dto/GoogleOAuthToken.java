@@ -1,4 +1,4 @@
-package com.picksa.picksaserver.auth.dto;
+package com.picksa.picksaserver.auth.oAuth.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

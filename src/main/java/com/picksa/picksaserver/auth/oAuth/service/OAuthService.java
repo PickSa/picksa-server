@@ -1,15 +1,15 @@
-package com.picksa.picksaserver.auth.service;
+package com.picksa.picksaserver.auth.oAuth.service;
 
-import com.picksa.picksaserver.auth.dto.OAuthUserInfoResponse;
-import com.picksa.picksaserver.auth.dto.SignInResponse;
-import com.picksa.picksaserver.auth.exception.AuthenticationUserNotRegisteredException;
+import com.picksa.picksaserver.auth.oAuth.dto.OAuthUserInfoResponse;
+import com.picksa.picksaserver.auth.oAuth.dto.SignInResponse;
+import com.picksa.picksaserver.auth.exception.AuthenticationUserNotExistException;
 import com.picksa.picksaserver.global.auth.JwtProvider;
 import com.picksa.picksaserver.user.UserEntity;
 import com.picksa.picksaserver.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.picksa.picksaserver.auth.exception.AuthErrorCode.USER_NOT_REGISTERED;
+import static com.picksa.picksaserver.auth.exception.AuthErrorCode.AUTH_USER_NOT_EXIST;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class OAuthService {
         OAuthUserInfoResponse userInfo = oAuthClientService.getUserInfo(authCode);
 
         UserEntity user = userRepository.findByEmail(userInfo.getEmail())
-                .orElseThrow(() -> new AuthenticationUserNotRegisteredException(USER_NOT_REGISTERED));
+                .orElseThrow(() -> new AuthenticationUserNotExistException(AUTH_USER_NOT_EXIST));
 
         String accessToken = jwtProvider.provideAccessToken(user);
 
