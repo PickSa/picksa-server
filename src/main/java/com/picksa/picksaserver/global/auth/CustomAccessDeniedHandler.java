@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.picksa.picksaserver.auth.exception.AuthErrorCode.USER_NOT_PERMITTED;
+import static com.picksa.picksaserver.auth.exception.AuthErrorCode.AUTH_USER_NOT_PERMITTED;
 
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
@@ -25,7 +25,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
 
-        AuthErrorResponse errorResponse = AuthErrorResponse.from(USER_NOT_PERMITTED);
+        AuthErrorResponse errorResponse = AuthErrorResponse.from(AUTH_USER_NOT_PERMITTED);
         String body = objectMapper.writeValueAsString(errorResponse);
         response.getWriter().write(body);
     }
