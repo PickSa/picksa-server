@@ -1,17 +1,22 @@
 package com.picksa.picksaserver.global.auth;
 
+import com.picksa.picksaserver.auth.exception.AuthenticationUserNotRegisteredException;
+import com.picksa.picksaserver.auth.exception.JwtAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
+import static com.picksa.picksaserver.auth.exception.AuthErrorCode.USER_NOT_REGISTERED;
+import static com.picksa.picksaserver.global.auth.JwtValidationType.VALID_JWT;
 
 
 @Component
@@ -28,9 +33,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (jwtValidationType == VALID_JWT) {
                 UserAuthentication authentication = jwtManager.getAuthenticationFromJwt(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                throw new JwtAuthenticationException(jwtValidationType.getErrorCode());
             }
-        } catch (Exception exception) {
-            throw new RuntimeException("Invalid Token");
+        } catch (UsernameNotFoundException exception) {
+            throw new AuthenticationUserNotRegisteredException(USER_NOT_REGISTERED);
         }
 
         filterChain.doFilter(request, response);

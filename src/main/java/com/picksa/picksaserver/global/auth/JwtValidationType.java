@@ -1,11 +1,24 @@
 package com.picksa.picksaserver.global.auth;
 
+import com.picksa.picksaserver.auth.exception.AuthErrorCode;
+import com.picksa.picksaserver.global.exception.ErrorCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
 public enum JwtValidationType {
     VALID_JWT,
 
-    INVALID_JWT_SIGNATURE,
-    INVALID_JWT_TOKEN,
-    EXPIRED_JWT_TOKEN,
-    UNSUPPORTED_JWT_TOKEN,
-    EMPTY_JWT
+    INVALID_JWT_SIGNATURE(AuthErrorCode.TOKEN_INVALID),
+    INVALID_JWT(AuthErrorCode.TOKEN_INVALID),
+    EXPIRED_JWT(AuthErrorCode.TOKEN_EXPIRED),
+    UNSUPPORTED_JWT(AuthErrorCode.TOKEN_INVALID),
+    EMPTY_JWT(AuthErrorCode.TOKEN_EMPTY);
+
+    private ErrorCode errorCode;
+
+    JwtValidationType(ErrorCode errorCode) {
+        this.errorCode = errorCode;
+    }
 }
