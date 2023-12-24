@@ -4,8 +4,9 @@ import com.picksa.picksaserver.global.exception.ErrorCode;
 
 public enum AuthErrorCode implements ErrorCode {
 
+    AUTHENTICATION_EMPTY("A001", "인증 정보가 존재하지 않습니다."),
+
     // JWT
-    TOKEN_EMPTY("A001", "토큰이 존재하지 않습니다."),
     TOKEN_EXPIRED("A002", "토큰이 만료되었습니다."),
     TOKEN_INVALID("A003", "토큰이 유효하지 않습니다."),
 
