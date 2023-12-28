@@ -7,9 +7,11 @@ import com.picksa.picksaserver.question.QuestionOrderCondition;
 import com.picksa.picksaserver.question.TagEntity;
 import com.picksa.picksaserver.question.dto.QuestionDetermine;
 import com.picksa.picksaserver.question.dto.request.QuestionCreateRequest;
+import com.picksa.picksaserver.question.dto.request.QuestionUpdateSequenceRequest;
 import com.picksa.picksaserver.question.dto.response.QuestionCreateResponse;
 import com.picksa.picksaserver.question.dto.response.QuestionDeleteResponse;
 import com.picksa.picksaserver.question.dto.response.QuestionResponse;
+import com.picksa.picksaserver.question.dto.response.QuestionUpdateSequenceResponse;
 import com.picksa.picksaserver.question.repository.QuestionRepository;
 import com.picksa.picksaserver.question.repository.TagRepository;
 import com.picksa.picksaserver.user.UserEntity;
@@ -47,7 +49,6 @@ public class QuestionService {
     }
 
     public List<QuestionDetermine> determineQuestions(List<QuestionDetermine> requests) {
-        UserEntity writer = getUser();
         List<QuestionEntity> questionsToUpdate = questionRepository.findAllById(
                 requests.stream()
                         .map(request -> request.id())
@@ -60,6 +61,11 @@ public class QuestionService {
                     .filter(q -> q.getId().equals(request.id()))
                     .findFirst()
                     .orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 질문입니다. id: " + request.id()));
+
+            // isDetermined가 false인 경우 sequence를 0으로 초기화
+            if (!request.isDetermined()) {
+                question.updateSequence(0);
+            }
 
             responses.add(question.updateIsDetermined(request.isDetermined()));
         }
@@ -90,6 +96,31 @@ public class QuestionService {
     public List<QuestionResponse> getDeterminedQuestions(Part partCondition) {
         int generation = getGenerationOfThisYear();
         return questionRepository.findDeterminedQuestionsByPart(partCondition, generation);
+    }
+
+    public List<QuestionUpdateSequenceResponse> updateOrder(List<QuestionUpdateSequenceRequest> requests) {
+        List<QuestionEntity> questionsToUpdate = questionRepository.findAllById(
+                requests.stream()
+                        .map(request -> request.id())
+                        .collect(Collectors.toList())
+        );
+
+        List<QuestionUpdateSequenceResponse> responses = new ArrayList<>();
+        for (QuestionUpdateSequenceRequest request : requests) {
+            QuestionEntity question = questionsToUpdate.stream()
+                    .filter(q -> q.getId().equals(request.id()))
+                    .findFirst()
+                    .orElseThrow(() -> new EntityNotFoundException("[Error] 존재하지 않는 질문입니다. id: " + request.id()));
+
+            if (!question.isDetermined()) {
+                throw new IllegalArgumentException("[Error] isDetermined가 false인 질문은 순서를 변경할 수 없습니다. id: " + request.id());
+            }
+
+            responses.add(question.updateSequence(request.sequence()));
+        }
+
+        questionRepository.saveAll(questionsToUpdate);
+        return responses;
     }
 
     private UserEntity getUser() {

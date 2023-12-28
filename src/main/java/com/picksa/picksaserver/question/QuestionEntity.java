@@ -1,6 +1,7 @@
 package com.picksa.picksaserver.question;
 
 import com.picksa.picksaserver.question.dto.QuestionDetermine;
+import com.picksa.picksaserver.question.dto.response.QuestionUpdateSequenceResponse;
 import com.picksa.picksaserver.user.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -70,6 +71,11 @@ public class QuestionEntity {
 
     public void deleteQuestion() {
         this.deletedAt = LocalDateTime.now();
+    }
+
+    public QuestionUpdateSequenceResponse updateSequence(int sequence) {
+        this.sequence = sequence;
+        return new QuestionUpdateSequenceResponse(this.id, this.sequence);
     }
 }
 
