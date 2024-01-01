@@ -1,7 +1,9 @@
 package com.picksa.picksaserver.applicant.repository;
 
 import com.picksa.picksaserver.applicant.OrderCondition;
+import com.picksa.picksaserver.applicant.Result;
 import com.picksa.picksaserver.applicant.dto.response.ApplicantResponse;
+import com.picksa.picksaserver.applicant.dto.response.ApplicantScheduleResponse;
 import com.picksa.picksaserver.global.domain.Part;
 import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Order;
@@ -67,6 +69,25 @@ public class ApplicantQueryRepositoryImpl implements ApplicantQueryRepository {
                         applicantEntity.part.eq(part))
                 .orderBy(
                         orderByField(orderCondition),
+                        applicantEntity.name.asc()
+                )
+                .fetch();
+    }
+
+    @Override
+    public List<ApplicantScheduleResponse> findApplicantSchedules(int generation) {
+        return jpaQueryFactory.select(Projections.constructor(
+                        ApplicantScheduleResponse.class,
+                        applicantEntity.id,
+                        applicantEntity.name,
+                        applicantEntity.part,
+                        applicantEntity.interviewAvailableTimes
+                ))
+                .from(applicantEntity)
+                .where(applicantEntity.generation.eq(generation),
+                        applicantEntity.result.eq(Result.PASS))
+                .orderBy(
+                        partOrder.asc(),
                         applicantEntity.name.asc()
                 )
                 .fetch();
