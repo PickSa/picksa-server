@@ -4,9 +4,11 @@ import com.picksa.picksaserver.global.domain.Part;
 import com.picksa.picksaserver.question.QuestionOrderCondition;
 import com.picksa.picksaserver.question.dto.QuestionDetermine;
 import com.picksa.picksaserver.question.dto.request.QuestionCreateRequest;
+import com.picksa.picksaserver.question.dto.request.QuestionUpdateSequenceRequest;
 import com.picksa.picksaserver.question.dto.response.QuestionCreateResponse;
 import com.picksa.picksaserver.question.dto.response.QuestionDeleteResponse;
 import com.picksa.picksaserver.question.dto.response.QuestionResponse;
+import com.picksa.picksaserver.question.dto.response.QuestionUpdateSequenceResponse;
 import com.picksa.picksaserver.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +80,14 @@ public class QuestionController {
     		) {
         QuestionDeleteResponse response = questionService.deleteQuestion(questionId);
     	return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/reorder")
+    public ResponseEntity<List<QuestionUpdateSequenceResponse>> updateOrder(
+            @RequestBody List<QuestionUpdateSequenceRequest> requests
+    ) {
+        List<QuestionUpdateSequenceResponse> response = questionService.updateOrder(requests);
+        return ResponseEntity.ok(response);
     }
 
 }
