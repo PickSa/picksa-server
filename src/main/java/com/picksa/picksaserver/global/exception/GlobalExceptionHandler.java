@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<DefaultErrorResponse> handleEntityNotFoundException(EntityNotFoundException exception) {
-        return ResponseEntity.status(BAD_REQUEST)
+        return ResponseEntity.status(NOT_FOUND)
                 .body(DefaultErrorResponse.from(exception.getMessage()));    }
 
     @ExceptionHandler(IllegalArgumentException.class)
