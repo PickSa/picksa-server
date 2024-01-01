@@ -46,7 +46,7 @@ public class ApplicantController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/interview/schedule")
+    @GetMapping("/interview/schedules")
     public ResponseEntity<ApplicantScheduleResponses> getApplicantSchedules() {
         ApplicantScheduleResponses response = applicantService.getApplicantsSchedules();
         return ResponseEntity.ok(response);
