@@ -37,7 +37,8 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
                         questionEntity.createdAt))
                 .from(questionEntity)
                 .where(questionEntity.tag.part.eq(part),
-                        questionEntity.tag.generation.eq(generation));
+                        questionEntity.tag.generation.eq(generation),
+                        questionEntity.deletedAt.isNull());
 
         if (condition == QuestionOrderCondition.LASTEST) {
             query.orderBy(questionEntity.isDetermined.desc(), questionEntity.createdAt.desc());
@@ -65,7 +66,8 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
                     .where(questionEntity.tag.part.eq(part)
                                     .or(questionEntity.tag.part.eq(Part.ALL)),
                             questionEntity.tag.generation.eq(generation),
-                            questionEntity.isDetermined.eq(true))
+                            questionEntity.isDetermined.eq(true),
+                            questionEntity.deletedAt.isNull())
                     .orderBy(
                             new CaseBuilder()
                                     .when(questionEntity.tag.part.eq(Part.ALL))
