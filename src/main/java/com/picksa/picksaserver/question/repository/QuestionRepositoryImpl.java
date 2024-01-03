@@ -34,8 +34,7 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
                         questionEntity.tag.content,
                         questionEntity.writer.id,
                         questionEntity.writer.name,
-                        questionEntity.createdAt,
-                        questionEntity.deletedAt))
+                        questionEntity.createdAt))
                 .from(questionEntity)
                 .where(questionEntity.tag.part.eq(part),
                         questionEntity.tag.generation.eq(generation),
@@ -62,8 +61,7 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
                             questionEntity.tag.content,
                             questionEntity.writer.id,
                             questionEntity.writer.name,
-                            questionEntity.createdAt,
-                            questionEntity.deletedAt))
+                            questionEntity.createdAt))
                     .from(questionEntity)
                     .where(questionEntity.tag.part.eq(part)
                                     .or(questionEntity.tag.part.eq(Part.ALL)),

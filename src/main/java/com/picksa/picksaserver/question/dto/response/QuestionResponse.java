@@ -11,7 +11,6 @@ public record QuestionResponse(
         String tagContent,
         Long writerId,
         String writerName,
-        LocalDateTime createdAt,
-        LocalDateTime deletedAt
+        LocalDateTime createdAt
 ) {
 }
