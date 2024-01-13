@@ -14,6 +14,9 @@ import com.picksa.picksaserver.global.domain.Generation;
 import com.picksa.picksaserver.user.Position;
 import com.picksa.picksaserver.user.UserEntity;
 import com.picksa.picksaserver.user.repository.UserRepository;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -107,9 +110,29 @@ public class EvaluationService {
     }
 
     public List<EvaluationResponse> getEvaluationByApplicant(Long applicantId) {
+        Long writerId = getUser().getId();
+
         ApplicantEntity applicant = applicantRepository.findByIdOrThrow(applicantId);
-        return evaluationRepository.findAllByApplicant(applicant).stream()
-                .map(EvaluationResponse::of).toList();
+        List<EvaluationEntity> evaluations = evaluationRepository.findAllByApplicant(applicant);
+
+        boolean hasMatchingWriterId = evaluations.stream()
+            .anyMatch(evaluation -> evaluation.getWriter().getId().equals(writerId));
+
+        if (hasMatchingWriterId) {
+            evaluations.sort((e1, e2) -> {
+                if (e1.getWriter().getId().equals(writerId)) {
+                    return -1; // 현재 객체(e1)를 이전 객체(e2)보다 앞으로 정렬
+                } else if (e2.getWriter().getId().equals(writerId)) {
+                    return 1; // 객체(e2)를 이전 객체(e1)보다 뒤로 정렬
+                } else {
+                    return 0; // 순서를 변경하지 않음
+                }
+            });
+        }
+
+        return evaluations.stream()
+            .map(EvaluationResponse::of)
+            .collect(Collectors.toList());
     }
 
     private void isCorrectPart(ApplicantEntity applicant, UserEntity user) {
