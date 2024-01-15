@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class InterviewService {
@@ -14,10 +16,11 @@ public class InterviewService {
     private final InterviewScheduleRepository interviewScheduleRepository;
 
     @Transactional
-    public Long create(InterviewScheduleCreateRequest request) {
-        InterviewScheduleEntity interviewSchedule = request.toEntity();
-        InterviewScheduleEntity saved = interviewScheduleRepository.save(interviewSchedule);
-        return saved.getId();
+    public void create(List<InterviewScheduleCreateRequest> request) {
+        List<InterviewScheduleEntity> interviewSchedules = request.stream()
+                .map(InterviewScheduleCreateRequest::toEntity)
+                .toList();
+        interviewScheduleRepository.saveAll(interviewSchedules);
     }
 
 }
