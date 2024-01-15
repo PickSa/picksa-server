@@ -2,7 +2,9 @@ package com.picksa.picksaserver.applicant.service;
 
 import com.picksa.picksaserver.applicant.InterviewScheduleEntity;
 import com.picksa.picksaserver.applicant.dto.request.InterviewScheduleCreateRequest;
+import com.picksa.picksaserver.applicant.dto.response.InterviewScheduleResponse;
 import com.picksa.picksaserver.applicant.repository.InterviewScheduleRepository;
+import com.picksa.picksaserver.global.domain.Generation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,15 @@ public class InterviewService {
                 .map(InterviewScheduleCreateRequest::toEntity)
                 .toList();
         interviewScheduleRepository.saveAll(interviewSchedules);
+    }
+
+    @Transactional
+    public List<InterviewScheduleResponse> getInterviewSchedulesOfThisYear() {
+        int generation = Generation.getGenerationOfThisYear();
+        List<InterviewScheduleEntity> interviewSchedules = interviewScheduleRepository.findByGenerationOrderByDate(generation);
+        List<InterviewScheduleResponse> response = interviewSchedules.stream().map(InterviewScheduleResponse::from).toList();
+
+        return response;
     }
 
 }

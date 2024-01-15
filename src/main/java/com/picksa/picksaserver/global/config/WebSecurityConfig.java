@@ -40,7 +40,6 @@ public class WebSecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/evaluations/final/**", HttpMethod.PATCH.name())).hasRole(Position.PART_LEADER.name())
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/interview/schedules",HttpMethod.POST.name())).hasRole(Position.PRESIDENT.name())
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/interview/schedules",HttpMethod.PATCH.name())).hasRole(Position.PRESIDENT.name())
-                        .requestMatchers(new AntPathRequestMatcher("/api/v1/interview/schedules",HttpMethod.GET.name())).permitAll()
                         .anyRequest()
                         .authenticated()
                 )
