@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.evaluation;
 
-import com.picksa.picksaserver.applicant.ApplicantEntity;
+import com.picksa.picksaserver.applicant.domain.ApplicantEntity;
 import com.picksa.picksaserver.user.UserEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

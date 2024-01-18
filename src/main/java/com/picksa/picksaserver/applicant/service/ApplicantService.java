@@ -1,9 +1,9 @@
 package com.picksa.picksaserver.applicant.service;
 
-import com.picksa.picksaserver.applicant.AnswerEntity;
-import com.picksa.picksaserver.applicant.ApplicantEntity;
-import com.picksa.picksaserver.applicant.InterviewScheduleEntity;
-import com.picksa.picksaserver.applicant.OrderCondition;
+import com.picksa.picksaserver.applicant.domain.AnswerEntity;
+import com.picksa.picksaserver.applicant.domain.ApplicantEntity;
+import com.picksa.picksaserver.applicant.domain.InterviewScheduleEntity;
+import com.picksa.picksaserver.applicant.domain.OrderCondition;
 import com.picksa.picksaserver.applicant.dto.response.ApplicantAllResponse;
 import com.picksa.picksaserver.applicant.dto.response.ApplicantDetailResponse;
 import com.picksa.picksaserver.applicant.dto.response.ApplicantResponse;

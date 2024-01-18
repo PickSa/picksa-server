@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.applicant.dto.response;
 
-import com.picksa.picksaserver.applicant.AnswerEntity;
+import com.picksa.picksaserver.applicant.domain.AnswerEntity;
 import lombok.Builder;
 
 @Builder

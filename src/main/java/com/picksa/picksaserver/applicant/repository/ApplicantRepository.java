@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.applicant.repository;
 
-import com.picksa.picksaserver.applicant.ApplicantEntity;
+import com.picksa.picksaserver.applicant.domain.ApplicantEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ApplicantRepository extends JpaRepository<ApplicantEntity, Long>, ApplicantQueryRepository {

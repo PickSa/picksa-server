@@ -1,8 +1,7 @@
 package com.picksa.picksaserver.applicant.dto.response;
 
-import com.picksa.picksaserver.applicant.InterviewScheduleEntity;
+import com.picksa.picksaserver.applicant.domain.InterviewScheduleEntity;
 import lombok.Builder;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
