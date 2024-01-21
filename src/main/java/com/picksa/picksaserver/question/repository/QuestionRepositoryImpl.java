@@ -32,6 +32,7 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
                         questionEntity.content,
                         questionEntity.tag.id,
                         questionEntity.tag.content,
+                        questionEntity.tag.part,
                         questionEntity.writer.id,
                         questionEntity.writer.name,
                         questionEntity.createdAt))
@@ -59,6 +60,7 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
                             questionEntity.content,
                             questionEntity.tag.id,
                             questionEntity.tag.content,
+                            questionEntity.tag.part,
                             questionEntity.writer.id,
                             questionEntity.writer.name,
                             questionEntity.createdAt))
