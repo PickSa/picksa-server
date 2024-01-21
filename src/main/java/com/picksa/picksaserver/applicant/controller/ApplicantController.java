@@ -24,8 +24,13 @@ public class ApplicantController {
 
     @GetMapping("/all")
     public ResponseEntity<ApplicantAllResponse> getAllApplicants(@RequestParam(required = false) String order) {
+        if (order == null) {
+            ApplicantAllResponse response = applicantService.getAllApplicants();
+            return ResponseEntity.ok(response);
+        }
+
         OrderCondition orderCondition = getOrderCondition(order);
-        ApplicantAllResponse response = applicantService.getAllApplicants(orderCondition);
+        ApplicantAllResponse response = applicantService.getAllApplicantsByOrderCondition(orderCondition);
 
         return ResponseEntity.ok(response);
     }

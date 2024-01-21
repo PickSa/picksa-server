@@ -34,10 +34,22 @@ public class ApplicantService {
     private final InterviewScheduleRepository interviewScheduleRepository;
 
     @Transactional(readOnly = true)
-    public ApplicantAllResponse getAllApplicants(OrderCondition orderCondition) {
+    public ApplicantAllResponse getAllApplicants() {
         int generation = getGenerationOfThisYear();
         int userCount = getUserCount(generation);
-        List<ApplicantResponse> applicants = applicantRepository.findAllApplicants(orderCondition, generation);
+        List<ApplicantResponse> applicants = applicantRepository.findAllApplicants(generation);
+        return ApplicantAllResponse.of(
+                generation,
+                userCount,
+                applicants
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public ApplicantAllResponse getAllApplicantsByOrderCondition(OrderCondition orderCondition) {
+        int generation = getGenerationOfThisYear();
+        int userCount = getUserCount(generation);
+        List<ApplicantResponse> applicants = applicantRepository.findAllApplicantsByOrderCondition(orderCondition, generation);
         return ApplicantAllResponse.of(
                 generation,
                 userCount,
