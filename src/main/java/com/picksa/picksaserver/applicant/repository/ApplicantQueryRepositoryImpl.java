@@ -32,7 +32,7 @@ public class ApplicantQueryRepositoryImpl implements ApplicantQueryRepository {
     );
 
     @Override
-    public List<ApplicantResponse> findAllApplicants(OrderCondition orderCondition, int generation) {
+    public List<ApplicantResponse> findAllApplicants(int generation) {
         return jpaQueryFactory.select(Projections.constructor(
                         ApplicantResponse.class,
                         applicantEntity.id,
@@ -47,7 +47,27 @@ public class ApplicantQueryRepositoryImpl implements ApplicantQueryRepository {
                 .where(applicantEntity.generation.eq(generation))
                 .orderBy(
                         partOrder.asc(),
+                        applicantEntity.name.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<ApplicantResponse> findAllApplicantsByOrderCondition(OrderCondition orderCondition, int generation) {
+        return jpaQueryFactory.select(Projections.constructor(
+                        ApplicantResponse.class,
+                        applicantEntity.id,
+                        applicantEntity.part,
+                        applicantEntity.name,
+                        applicantEntity.studentId,
+                        applicantEntity.phone,
+                        applicantEntity.score,
+                        applicantEntity.isEvaluated,
+                        applicantEntity.result))
+                .from(applicantEntity)
+                .where(applicantEntity.generation.eq(generation))
+                .orderBy(
                         orderByField(orderCondition),
+                        partOrder.asc(),
                         applicantEntity.name.asc())
                 .fetch();
     }
