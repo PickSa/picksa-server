@@ -10,7 +10,9 @@ import java.util.List;
 
 public interface ApplicantQueryRepository {
 
-    List<ApplicantResponse> findAllApplicants(OrderCondition orderCondition, int generation);
+    List<ApplicantResponse> findAllApplicants(int generation);
+
+    List<ApplicantResponse> findAllApplicantsByOrderCondition(OrderCondition orderCondition, int generation);
 
     List<ApplicantResponse> findApplicantsByPart(Part part, OrderCondition orderCondition, int generation);
 
