@@ -33,7 +33,7 @@ public class QuestionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
     private int sequence;
 
     @Column(nullable = false)
