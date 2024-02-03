@@ -9,4 +9,6 @@ public interface InterviewScheduleRepository extends JpaRepository<InterviewSche
 
     List<InterviewScheduleEntity> findByGenerationOrderByDate(int generation);
 
+    void deleteAllByGeneration(int generation);
+
 }
