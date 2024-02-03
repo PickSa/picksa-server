@@ -34,4 +34,15 @@ public class InterviewService {
         return response;
     }
 
+    @Transactional
+    public void update(List<InterviewScheduleCreateRequest> request) {
+        int generation = Generation.getGenerationOfThisYear();
+        interviewScheduleRepository.deleteAllByGeneration(generation);
+
+        List<InterviewScheduleEntity> interviewSchedules = request.stream()
+                .map(InterviewScheduleCreateRequest::toEntity)
+                .toList();
+        interviewScheduleRepository.saveAll(interviewSchedules);
+    }
+
 }
