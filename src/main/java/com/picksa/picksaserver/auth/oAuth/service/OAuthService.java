@@ -1,8 +1,8 @@
 package com.picksa.picksaserver.auth.oAuth.service;
 
+import com.picksa.picksaserver.auth.exception.AuthenticationUserNotExistException;
 import com.picksa.picksaserver.auth.oAuth.dto.OAuthUserInfoResponse;
 import com.picksa.picksaserver.auth.oAuth.dto.SignInResponse;
-import com.picksa.picksaserver.auth.exception.AuthenticationUserNotExistException;
 import com.picksa.picksaserver.global.auth.JwtProvider;
 import com.picksa.picksaserver.user.UserEntity;
 import com.picksa.picksaserver.user.repository.UserRepository;

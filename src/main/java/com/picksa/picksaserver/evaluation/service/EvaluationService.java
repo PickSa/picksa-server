@@ -14,9 +14,6 @@ import com.picksa.picksaserver.global.domain.Generation;
 import com.picksa.picksaserver.user.Position;
 import com.picksa.picksaserver.user.UserEntity;
 import com.picksa.picksaserver.user.repository.UserRepository;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -26,11 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.ALREADY_EVALUATED;
+import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.UPDATE_NOT_PERMITTED;
 import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.USER_NOT_PART_LEADER;
 import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.USER_PART_MISMATCHED;
-import static com.picksa.picksaserver.evaluation.exception.EvaluationExceptionMessage.UPDATE_NOT_PERMITTED;
 
 @Service
 @RequiredArgsConstructor

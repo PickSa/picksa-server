@@ -37,6 +37,7 @@ public class WebSecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/tags/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/applications/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/evaluations/final/**", HttpMethod.PATCH.name())).hasRole(Position.PART_LEADER.name())
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/interview/schedules",HttpMethod.POST.name())).hasRole(Position.PRESIDENT.name())
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/interview/schedules",HttpMethod.PATCH.name())).hasRole(Position.PRESIDENT.name())
