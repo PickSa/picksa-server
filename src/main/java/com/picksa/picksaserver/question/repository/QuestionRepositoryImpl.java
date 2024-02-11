@@ -1,6 +1,7 @@
 package com.picksa.picksaserver.question.repository;
 
 import com.picksa.picksaserver.global.domain.Part;
+import com.picksa.picksaserver.question.QuestionEntity;
 import com.picksa.picksaserver.question.QuestionOrderCondition;
 import com.picksa.picksaserver.question.dto.response.QuestionResponse;
 import com.querydsl.core.types.Projections;
@@ -78,6 +79,19 @@ public class QuestionRepositoryImpl implements QuestionQueryRepository {
                             questionEntity.tag.part.asc(),
                             questionEntity.sequence.asc())
                     .fetch();
+    }
+
+    @Override
+    public List<QuestionEntity> findDeterminedQuestionsByGeneration(int generation) {
+        return jpaQueryFactory.selectFrom(questionEntity)
+                .where(
+                        questionEntity.tag.generation.eq(generation),
+                        questionEntity.isDetermined.eq(true),
+                        questionEntity.deletedAt.isNull()
+                )
+                .orderBy(
+                        questionEntity.sequence.asc())
+                .fetch();
     }
 
 }
