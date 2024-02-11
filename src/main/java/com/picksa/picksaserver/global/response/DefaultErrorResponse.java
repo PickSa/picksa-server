@@ -1,6 +1,5 @@
 package com.picksa.picksaserver.global.response;
 
-import com.picksa.picksaserver.global.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter
