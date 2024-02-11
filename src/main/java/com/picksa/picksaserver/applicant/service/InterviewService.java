@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.applicant.service;
 
-import com.picksa.picksaserver.applicant.InterviewScheduleEntity;
+import com.picksa.picksaserver.applicant.domain.InterviewScheduleEntity;
 import com.picksa.picksaserver.applicant.dto.request.InterviewScheduleCreateRequest;
 import com.picksa.picksaserver.applicant.dto.response.InterviewScheduleResponse;
 import com.picksa.picksaserver.applicant.repository.InterviewScheduleRepository;

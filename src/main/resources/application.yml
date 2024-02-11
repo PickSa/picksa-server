@@ -30,3 +30,7 @@ oauth:
 jwt:
   secret_key: ${JWT_SECRET_KEY}
   access_token_expiration: ${ACCESS_TOKEN_EXPIRATION}
+
+sync:
+  server:
+    url: ${SYNC_SERVER_URL}

@@ -1,4 +1,4 @@
-package com.picksa.picksaserver.applicant;
+package com.picksa.picksaserver.applicant.domain;
 
 import com.picksa.picksaserver.question.QuestionEntity;
 import jakarta.persistence.Column;

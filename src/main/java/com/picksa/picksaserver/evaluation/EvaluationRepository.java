@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.evaluation;
 
-import com.picksa.picksaserver.applicant.ApplicantEntity;
+import com.picksa.picksaserver.applicant.domain.ApplicantEntity;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 

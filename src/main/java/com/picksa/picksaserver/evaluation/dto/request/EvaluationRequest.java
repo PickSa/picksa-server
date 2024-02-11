@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.evaluation.dto.request;
 
-import com.picksa.picksaserver.applicant.ApplicantEntity;
+import com.picksa.picksaserver.applicant.domain.ApplicantEntity;
 import com.picksa.picksaserver.evaluation.EvaluationEntity;
 import com.picksa.picksaserver.user.UserEntity;
 

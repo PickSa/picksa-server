@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.applicant.dto.response;
 
-import com.picksa.picksaserver.applicant.Result;
+import com.picksa.picksaserver.applicant.domain.Result;
 import com.picksa.picksaserver.global.domain.Part;
 
 public record ApplicantResponse(

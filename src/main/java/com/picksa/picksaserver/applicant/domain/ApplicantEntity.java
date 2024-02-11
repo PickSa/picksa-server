@@ -1,4 +1,4 @@
-package com.picksa.picksaserver.applicant;
+package com.picksa.picksaserver.applicant.domain;
 
 import com.picksa.picksaserver.global.domain.Part;
 import jakarta.persistence.Column;
@@ -13,8 +13,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Table(name = "applicants")
 @Entity

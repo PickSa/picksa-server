@@ -1,7 +1,7 @@
 package com.picksa.picksaserver.evaluation.dto.response;
 
-import com.picksa.picksaserver.applicant.ApplicantEntity;
-import com.picksa.picksaserver.applicant.Result;
+import com.picksa.picksaserver.applicant.domain.ApplicantEntity;
+import com.picksa.picksaserver.applicant.domain.Result;
 
 public record FinalEvaluationResponse (
     Long applicantId,

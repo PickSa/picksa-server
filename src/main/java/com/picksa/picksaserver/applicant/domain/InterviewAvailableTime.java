@@ -1,4 +1,4 @@
-package com.picksa.picksaserver.applicant;
+package com.picksa.picksaserver.applicant.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

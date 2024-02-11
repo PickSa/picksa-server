@@ -1,12 +1,10 @@
 package com.picksa.picksaserver.applicant.dto.response;
 
-import com.picksa.picksaserver.applicant.AnswerEntity;
-import com.picksa.picksaserver.applicant.ApplicantEntity;
-import com.picksa.picksaserver.applicant.Result;
-import com.picksa.picksaserver.global.domain.Part;
+import com.picksa.picksaserver.applicant.domain.AnswerEntity;
+import com.picksa.picksaserver.applicant.domain.ApplicantEntity;
+import com.picksa.picksaserver.applicant.domain.Result;
 import lombok.Builder;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Builder

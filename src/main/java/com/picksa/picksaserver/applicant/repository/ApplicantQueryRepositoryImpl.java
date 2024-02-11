@@ -1,7 +1,7 @@
 package com.picksa.picksaserver.applicant.repository;
 
-import com.picksa.picksaserver.applicant.OrderCondition;
-import com.picksa.picksaserver.applicant.Result;
+import com.picksa.picksaserver.applicant.domain.OrderCondition;
+import com.picksa.picksaserver.applicant.domain.Result;
 import com.picksa.picksaserver.applicant.dto.response.ApplicantResponse;
 import com.picksa.picksaserver.applicant.dto.response.ApplicantScheduleResponse;
 import com.picksa.picksaserver.global.domain.Part;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.picksa.picksaserver.applicant.QApplicantEntity.applicantEntity;
+import static com.picksa.picksaserver.applicant.domain.QApplicantEntity.applicantEntity;
 
 @Repository
 @RequiredArgsConstructor

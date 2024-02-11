@@ -1,6 +1,6 @@
 package com.picksa.picksaserver.applicant.dto.request;
 
-import com.picksa.picksaserver.applicant.InterviewScheduleEntity;
+import com.picksa.picksaserver.applicant.domain.InterviewScheduleEntity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
