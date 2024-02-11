@@ -22,4 +22,10 @@ public class ApplicationController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/applicant")
+    public ResponseEntity<Void> convertApplicationToApplicant() {
+        applicationConvertService.convertApplicationToApplicant();
+        return ResponseEntity.ok().build();
+    }
+
 }
