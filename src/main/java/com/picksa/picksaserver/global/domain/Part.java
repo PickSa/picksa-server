@@ -2,6 +2,8 @@ package com.picksa.picksaserver.global.domain;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public enum Part {
 
@@ -19,6 +21,13 @@ public enum Part {
 
     public static Part from(String lowerCase) {
         return Part.valueOf(lowerCase.toUpperCase());
+    }
+
+    public static Part getPartFromName(String name) {
+        return Arrays.stream(Part.values())
+                .filter(v -> v.getPartName().equals(name))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException(String.format("이름과 일치하는 Part가 없습니다: %s", name)));
     }
 
 }
