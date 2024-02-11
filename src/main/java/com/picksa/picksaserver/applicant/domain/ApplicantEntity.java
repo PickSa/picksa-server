@@ -83,9 +83,7 @@ public class ApplicantEntity {
                            Part part,
                            int generation,
                            String portfolio,
-                           int score,
                            boolean isEvaluated,
-                           Result result,
                            String interviewAvailableTimes) {
         this.name = name;
         this.studentId = studentId;
@@ -98,9 +96,9 @@ public class ApplicantEntity {
         this.part = part;
         this.generation = generation;
         this.portfolio = portfolio;
-        this.score = score;
+        this.score = 0;
         this.isEvaluated = isEvaluated;
-        this.result = result;
+        this.result = Result.PENDING;
         this.interviewAvailableTimes = interviewAvailableTimes;
     }
 
