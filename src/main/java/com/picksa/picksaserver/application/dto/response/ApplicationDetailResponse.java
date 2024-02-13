@@ -64,6 +64,7 @@ public record ApplicationDetailResponse(
                 .multiMajor(multiMajor)
                 .part(part)
                 .generation(generation)
+                .portfolio(portfolio)
                 .interviewAvailableTimes(interviewAvailableTimes)
                 .build();
     }
